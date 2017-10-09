@@ -43,6 +43,8 @@ for subject=subjectRange
             EEG(subject,trial,flash).label = data.y(start);
             EEG(subject,trial,flash).stim = data.y_stim(start); 
             
+            [trial, flash, EEG(subject,trial,flash).stim, EEG(subject,trial,flash).label]
+            
             EEG(subject,trial,flash).isartifact = false;
             if (artifact)
                 artifactcount = artifactcount + 1;

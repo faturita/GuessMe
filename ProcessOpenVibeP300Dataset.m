@@ -63,6 +63,50 @@ ab = [a; b];
 % a hits, b nohits, c and d contain where trial end and stop (five of each
 % per letter).
 
+%%
+total=0;
+for i=1:12
+    size(find(stims(:,2)==33025-1+i))
+    total=total+size(find(stims(:,2)==33025-1+i))
+end
+
+
+% Los stimulos pueden venir despues de muchas cosas.
+counterhits=0;
+counternohits=0;
+validstimuls=[];
+for i=1:size(stimuls,1)
+    vl=stims(stimuls(i)-1,1:2)
+    if (vl(2) == 33285)
+        counterhits = counterhits + 1;
+        validstimuls(end+1) = stimuls(i);
+    elseif (vl(2) == 33286)
+        counternohits = counternohits + 1;
+        validstimuls(end+1) = stimuls(i);
+    end
+    assert ( vl(2)==33285 || vl(2)==33286 || vl(2)==32777 || vl(2) == 897 || vl(2)>=33025 || vl(2)<=33036);
+end
+
+% Los que valen son los que estan precedidos por una marca de target o no
+% target
+% Chequear si los targets estan bien asignados a los mismos estimulos
+% dentro del mismo trial.
+%%
+for trial=1:35
+    h=[];
+    for i=1:20
+        vl=stims(a((trial-1)*20+i)+1,1:2);
+        [(trial-1)*35+i vl(2)];
+        h=[h vl(2)];
+    end
+    h = unique(h);
+    h
+    assert( size(h,2) == 2);
+end
+
+
+%%
+
 ab = sort(ab);
 
 % Cut the stimulus from stims, getting only the time and duration of each.
@@ -75,7 +119,7 @@ targets(targets(:,2)==32773,2) = 0;
 targets(targets(:,2)==32774,2) = 0;
 targets(targets(:,2)==32780,2) = 0;
 
-sls = sort(stimuls);
+sls = sort(validstimuls);
 
 stimulations = [ stims(sls,1:3) ];
 
@@ -89,9 +133,33 @@ stoptime=stims(c(36),1);
 stopsample=find(sampleTime>stims(c(36),1));
 
 
-sampleTime(stopsample:end,:) = [];
-samples(stopsample:end,:) = [];
+sampleTime(stopsample(1):end,:) = [];
+samples(stopsample(1):end,:) = [];
 
+
+z = stims(c,1);
+
+z(36) = [];
+
+targets(4201:end,:) = [];
+stimulations(4201:end,:) = [];
+
+% Check target consistency
+Word = [];
+for trial=1:35
+    h=[];
+    for i=1:120
+        if (targets((trial-1)*120+i,2)==2)
+            h = [h stimulations((trial-1)*120+i,2)];
+        end
+    end
+    h = unique(h);
+    h
+    assert( size(h,2) == 2);
+    Word = [Word SpellMeLetter(h(1),h(2))];
+end
+
+Word
 
 % Data Structure
 data = cell(0);
@@ -100,13 +168,7 @@ data.X = samples;
 data.y = zeros(size(samples,1),1);
 data.y_stim = zeros(size(samples,1),1);
 data.trial=zeros(5,1);
-z = stims(c,1);
 
-% erase the last one.
-z(end) = [];
-
-targets(4201:end,:) = [];
-stimulations(4201:end,:) = [];
 
 Fs=250;
 
@@ -127,33 +189,6 @@ for i=1:size(targets,1)
 end
 
 
-% First, lets map the stimulus and the target information.
-% for i=1:size(z,1)
-%     maxs=find(sampleTime>z(i));
-%     for stimuls=0:119
-%         data.y(maxs+64*stimuls:(maxs+64*stimuls)+32-1)=targets((i-1)*120+stimuls+1,2);
-%     end
-% end
-% 
-% 
-% 
-% % I need to assign a label for each target.
-% if (false)
-%     events=1;
-%     whichtarget = 0;
-%     for i=1:size(samples,1)
-%         if (events>size(targets,1))
-%             whichtarget = 0;
-%         elseif (sampleTime(i)>targets(events,1))    
-%             whichtarget = targets(events,2);
-%             events=events+1;
-%         end
-%         data.y(i) = whichtarget;
-% 
-%     end
-% 
-%     [1:size(data.y,1)'; data.y']'
-% end
 
 for i=1:size(z)
     n=find(sampleTime>z(i));
@@ -162,146 +197,146 @@ end
 
 data.trial = data.trial';
 
+
+%%
+% Do some check
+for i=1:4200
+    ss=data.y_stim(data.flash(i)-5:data.flash(i)+40)'
+    
+    assert ( ss(5) == 0, 'Not zero');
+end
+%%
+
 %data.X = data.X * 10;
 save('p300.mat');
 
 
 windowsize=1;
-downsize=10;
+downsize=25;
+imagescale=4;
+timescale=4;
+amplitude=3;
+sqKS=[20];
+siftscale=[4 4];
+siftdescriptordensity=1;
+minimagesize=floor(sqrt(2)*15*siftscale(2)+1);
+nbofclassespertrial=12;
+k=7;
+adaptative=false;
+subjectRange=1:1;
 
 EEG = prepareEEG(Fs,windowsize,downsize,120,1:1,1:8);
-
-for i=1:12 routput{i} = 0; end
-
+Fs=Fs/downsize;
 
 for subject=1:1
     for trial=1:35
+        for i=1:12 rcounter{subject}{trial}{i} = 0; end
         for flash=1:120
-            routput{EEG(subject,trial,flash).stim} = routput{EEG(subject,trial,flash).stim}+1;
+            rcounter{subject}{trial}{EEG(subject,trial,flash).stim} = rcounter{subject}{trial}{EEG(subject,trial,flash).stim}+1;
+        end
+    end
+end
+
+%%
+clear hit
+for subject=1:1
+    for trial=1:35
+        for i=1:12 hit{subject}{trial}{i} = 0; end
+        for i=1:12 routput{subject}{trial}{i} = []; end
+        for flash=1:120
+            output = EEG(subject,trial,flash).EEG;
+            routput{subject}{trial}{EEG(subject,trial,flash).stim} = [routput{subject}{trial}{EEG(subject,trial,flash).stim} ;output];
+            hit{subject}{trial}{EEG(subject,trial,flash).stim} = EEG(subject,trial,flash).label;
+        end
+    end
+end
+
+%%
+h=[];
+Word=[];
+for subject=1:1
+    for trial=1:35
+        hh = [];
+        for i=1:12
+            rput{i} = routput{subject}{trial}{i};
+            channelRange = (1:size(rput{i},2));
+            channelsize = size(channelRange,2);
+
+            %assert( size(rput{i},1)/(Fs*windowsize) == rcounter{i}, 'Something wrong with PtP average. Sizes do not match.');
+
+            rput{i}=reshape(rput{i},[(Fs*windowsize) size(rput{i},1)/(Fs*windowsize) channelsize]); 
+
+            for channel=channelRange
+                rmean{i}(:,channel) = mean(rput{i}(:,:,channel),2);
+            end
+
+            if (hit{subject}{trial}{i} == 2)
+                h = [h i];
+                hh = [hh i];
+            end    
+            routput{subject}{trial}{i} = rmean{i};
+        end
+        Word = [Word SpellMeLetter(hh(1),hh(2))];
+    end
+end
+
+for subject=1:1
+    for trial=1:35
+        
+        for i=1:12
+
+            rmean{i} = routput{subject}{trial}{i};
+            
+            for c=channelRange
+                %rsignal{i}(:,c) = resample(rmean{i}(:,c),size(rmean{i},1)*timescale,size(rmean{i},1));
+                rsignal{i}(:,c) = resample(rmean{i}(:,c),1:size(rmean{i},1),timescale);
+            end
+
+            rsignal{i} = zscore(rsignal{i})*amplitude;
+            
+            routput{subject}{trial}{i} = rsignal{i};
         end
     end
 end
 
 
 %%
-% Epoching
-globalnumberofsamples=1200000;
-globalnumberofepochs=12000000;
-routput = [];
-boutput = [];
-rcounter = 0;
-bcounter = 0;
-processedflashes = 0;
-        
-Fs=Fs/downsize;
-for subject=1:1
-   epoch=0;
-   for trial=1:35
-        %routput = [];
-        %boutput = [];
-        %rcounter = 0;
-        %bcounter = 0;
-        %processedflashes = 0;
-        for flash=1:120
-            
-            % Process one epoch if the number of flashes has been reached.
-            if (processedflashes>globalnumberofsamples)
-                break;
-                %SignalAveragingProcessingSegment;
-                %processedflashes=0;
-            end
-            
-            % Skip artifacts
-            if (EEG(subject,trial,flash).isartifact)
-                continue;
-            end
 
-            
-%             if (mod(flash-1,12)==0)
-%                 assert( globalnumberofepochs>2 ||  processedflashes==0 || bcounter==1);
-%                 bcounter=0;
-%                 rcounter=0; 
-%                 bpickercounter = 0;
-%                 bwhichone = [0 1];%bwhichone=sort(randperm(10,2)-1);
+epoch=0;
+labelRange=[];
+epochRange=[];
+stimRange=[];
+for subject=1:1
+    for trial=1:35        
+        for i=1:12
+        epoch=epoch+1;    
+        label = hit{subject}{trial}{i};
+        labelRange(epoch) = label;
+        stimRange(epoch) = i;
+        DS = [];
+        rsignal{i}=routput{subject}{trial}{i};
+        for channel=channelRange
+            [eegimg, DOTS, zerolevel] = eegimage(channel,rsignal{i},imagescale,1, false,minimagesize);
+
+            saveeegimage(subject,epoch,label,channel,eegimg);
+            zerolevel = size(eegimg,1)/2;
+
+%             if ((size(find(trainingRange==epoch),2)==0))
+%                qKS=ceil(0.20*(Fs)*timescale):floor(0.20*(Fs)*timescale+(Fs)*timescale/4-1);
+%             else
+                qKS=sqKS(subject);
 %             end
 
-            label = EEG(subject,trial,flash).label;
-            output = EEG(subject,trial,flash).EEG;
+            [frames, desc] = PlaceDescriptorsByImage(eegimg, DOTS,siftscale, siftdescriptordensity,qKS,zerolevel,false,'euclidean');            
+            F(channel,label,epoch).stim = i;
+            F(channel,label,epoch).hit = hit{subject}{trial}{i};
             
-            processedflashes = processedflashes+1;
-            
-            if ((label==2) && (rcounter<globalnumberofepochs))
-                routput = [routput; output];
-                rcounter=rcounter+1;
-            end
-            if ((label==1) && (bcounter<globalnumberofepochs))
-                boutput = [boutput; output];
-                bcounter=bcounter+1;
-            end
 
+            F(channel,label,epoch).descriptors = desc;
+            F(channel,label,epoch).frames = frames; 
         end
-   end 
-end
-end
-channelRange=1:8;
-channels={ 'Fz'  ,  'Cz',    'Pz' ,   'Oz'  ,  'P3'  ,  'P4'   , 'PO7'   , 'PO8'};
-
-%%
-    if (size(routput,1) >= 2)
-        %assert( bcounter == rcounter, 'Averages are calculated from different sizes');
-    
-        %assert( size(boutput,1) == size(routput,1), 'Averages are calculated from different sizes.')
-    
-        assert( (size(routput,1) >= 2 ), 'There arent enough epoch windows to average.');
-   
-        routput=reshape(routput,[Fs size(routput,1)/Fs 8]);
-        boutput=reshape(boutput,[Fs size(boutput,1)/Fs 8]);
-
-        for channel=channelRange
-            rmean(:,channel) = mean(routput(:,:,channel),2);
-            bmean(:,channel) = mean(boutput(:,:,channel),2);
         end
-
-        subjectaverages{subject}.rmean = rmean;
-        subjectaverages{subject}.bmean = bmean;  
- 
     end
-
-%%
-for channel=1:8
-    rmean = subjectaverages{subject}.rmean;
-    bmean = subjectaverages{subject}.bmean;
-    
-    %[n,m]=size(rmean);
-    %rmean=rmean - ones(n,1)*mean(rmean,1);
-            
-    %[n,m]=size(bmean);
-    %bmean=bmean - ones(n,1)*mean(bmean,1);
-    
-    fig = figure(3);
-
-    subplot(4,2,channel);
-    
-    hold on;
-    Xi = 0:0.1:size(rmean,1);
-    Yrmean = pchip(1:size(rmean,1),rmean(:,channel),Xi);
-    Ybmean = pchip(1:size(rmean,1),bmean(:,channel),Xi);
-    plot(Xi,Yrmean,'r','LineWidth',2);
-    plot(Xi,Ybmean,'b--','LineWidth',2);
-    %plot(rmean(:,2),'r');
-    %plot(bmean(:,2),'b');
-    axis([0 Fs -6 6]);
-    set(gca,'XTick', [Fs/4 Fs/2 Fs*3/4 Fs]);
-    set(gca,'XTickLabel',{'0.25','.5','0.75','1s'});
-    set(gca,'YTick', [-5 0 5]);
-    set(gca,'YTickLabel',{'-5 uV','0','5 uV'});
-    set(gcf, 'renderer', 'opengl')
-    %hx=xlabel('Repetitions');
-    %hy=ylabel('Accuracy');
-    set(0, 'DefaultAxesFontSize',18);
-    text(0.5,4.5,sprintf('Channel %s',channels{channel}),'FontWeight','bold');
-    %set(hx,'fontSize',20);
-    %set(hy,'fontSize',20);
 end
-legend('Target','NonTarget');
-hold off
+ 
+end
