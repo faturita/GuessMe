@@ -127,6 +127,6 @@ Los templates obtenidos:
 * Escalas del descriptor: 4 x 4
 * Estas cubren alrededor de 21 microVoltios y 0.84 s.
 * Downsample: La Fs se baja de 250 a 25 (factor de 10).
-* Filtro de Notch a 50 Hz y butterworth 
+* Filtro de Notch a 50 Hz y butterworth band-pass de 4 a 10 Hz.
 
 
