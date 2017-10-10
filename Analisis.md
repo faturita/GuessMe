@@ -54,3 +54,78 @@ El promedio punto a punto de los hits (700) vs nohits (3500) da
 
 Se ve la se?al de P300 principalmente en los dos canales occipitales.
 
+El porcentaje de letras identificadas correctamente, dividiendo el dataset entre 
+3 para aprendizaje y 4 para testeo (siguiendo el mismo patr?n que otros trabajos similares)
+da como resultado:
+
+```matlab
+>> globalspeller
+
+globalspeller =
+
+  Columns 1 through 5
+
+    0.4000    0.3000    0.2000    0.0500    0.0500
+
+  Columns 6 through 8
+
+    0.2000    0.5000    0.1500
+
+```
+
+Se verifica que el mejor canal es el PO7 alcanzando 50%, con lo que genera la siguiente frase:
+
+```matlab
+>> Word(16:end)
+
+ans =
+
+MANSOCINCOJUEGOQUESO
+
+>> Speller{7}
+
+ans = 
+
+  Columns 1 through 7
+
+    'M'    'A'    'T'    'Y'    'O'    'H'    'I'
+
+  Columns 8 through 14
+
+    '6'    'O'    'O'    '2'    '1'    'E'    'L'
+
+  Columns 15 through 20
+
+    '7'    'Q'    'U'    'W'    'S'    'O'
+
+```
+
+Y utilizando Redes neuronales por ejemplo:
+
+```matlab
+>> globalspeller
+
+globalspeller =
+
+  Columns 1 through 4
+
+    0.1500    0.1000    0.0500    0.0500
+
+  Columns 5 through 8
+
+    0.0500    0.2000    0.3500    0.0500
+```
+
+
+Los templates obtenidos:
+
+![Templates P300](images/p300templates.png) 
+
+# Parametros
+
+* Gamma (image amplitude) = 4
+* Escalas del descriptor: 4 x 4
+* Estas cubren alrededor de 21 microVoltios y 0.84 s.
+
+
+

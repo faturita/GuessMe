@@ -210,13 +210,13 @@ end
 %data.X = data.X * 10;
 save('p300.mat');
 
-
+channels={ 'Fz'  ,  'Cz',    'Pz' ,   'Oz'  ,  'P3'  ,  'P4'   , 'PO7'   , 'PO8'};
 windowsize=1;
-downsize=25;
+downsize=10;
 imagescale=4;
 timescale=4;
 amplitude=3;
-sqKS=[20];
+sqKS=[50];
 siftscale=[4 4];
 siftdescriptordensity=1;
 minimagesize=floor(sqrt(2)*15*siftscale(2)+1);
@@ -262,7 +262,7 @@ for subject=1:1
             channelRange = (1:size(rput{i},2));
             channelsize = size(channelRange,2);
 
-            %assert( size(rput{i},1)/(Fs*windowsize) == rcounter{i}, 'Something wrong with PtP average. Sizes do not match.');
+            assert( size(rput{i},1)/(Fs*windowsize) == rcounter{subject}{trial}{i}, 'Something wrong with PtP average. Sizes do not match.');
 
             rput{i}=reshape(rput{i},[(Fs*windowsize) size(rput{i},1)/(Fs*windowsize) channelsize]); 
 
@@ -327,7 +327,7 @@ for subject=1:1
                 qKS=sqKS(subject);
 %             end
 
-            [frames, desc] = PlaceDescriptorsByImage(eegimg, DOTS,siftscale, siftdescriptordensity,qKS,zerolevel,false,'euclidean');            
+            [frames, desc] = PlaceDescriptorsByImage(eegimg, DOTS,siftscale, siftdescriptordensity,qKS,zerolevel,false,'cosine');            
             F(channel,label,epoch).stim = i;
             F(channel,label,epoch).hit = hit{subject}{trial}{i};
             
