@@ -10,7 +10,7 @@ for subject=subjectRange
     clear data.trial
     load('p300.mat');
 
-    dataX = notchsignal(data.X, channelRange);
+    dataX = notchsignal(data.X, channelRange,Fs);
     datatrial = data.trial;
 
     

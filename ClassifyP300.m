@@ -12,96 +12,96 @@ for subject=1:1
     SBJ(subject).testRange = testRange;
     
     
+%     for channel=channelRange
+%         [DE(channel), ACC, ERR, AUC, SC(channel)] = NNetClassifier(F,labelRange,trainingRange,testRange,channel);
+%         globalaccij1(subject,channel)=ACC;
+%         globalsigmaaccij1 = globalaccij1;
+%         globalaccij2(subject,channel)=AUC;
+%         SBJ(subject).DE(channel) = DE(channel);
+%         SBJ(subject).SC(channel) = SC(channel);
+%     end  
+    
+    
+    
+    
+ for subject=1:1    
+    %%
     for channel=channelRange
-        [DE(channel), ACC, ERR, AUC, SC(channel)] = NNetClassifier(F,labelRange,trainingRange,testRange,channel);
-        globalaccij1(subject,channel)=ACC;
-        globalsigmaaccij1 = globalaccij1;
-        globalaccij2(subject,channel)=AUC;
-        SBJ(subject).DE(channel) = DE(channel);
-        SBJ(subject).SC(channel) = SC(channel);
-    end  
-    
-    
-    
-    
-%  for subject=1:1    
-%     %%
-%     for channel=channelRange
-%         fprintf('Channel %d\n', channel);
-%         fprintf('Building Test Matrix M for Channel %d:', channel);
-%         [TM, TIX] = BuildDescriptorMatrix(F,channel,labelRange,testRange);
-%         fprintf('%d\n', size(TM,2));
-%         
-%         DE = NBNNFeatureExtractor(F,channel,trainingRange,labelRange,[1 2],false);
-%         
-%         iterate=true;
-%         balancebags=false;
-%         while(iterate)
-%             fprintf('Bag Sizes %d vs %d \n', size(DE.C(1).IX,1),size(DE.C(2).IX,1));
-%             %[ACC, ERR, AUC, SC] = LDAClassifier(F,DE,channel,trainingRange,testRange,labelRange,false);
-%             [ACC, ERR, AUC, SC] = NBNNClassifier4(F,DE,channel,testRange,labelRange,false,'cosine',k);
-%             %[ACC, ERR, AUC, SC] = NNetClassifier(F,DE,labelRange,trainingRange,testRange,channel)
-%             P = SC.TN / (SC.TN+SC.FN);
-%             globalaccij1(subject,channel)=1-ERR/size(testRange,2);
-%             globalaccij2(subject,channel)=AUC;
-%             
-%             iterate=false;
-%             
-%             if (adaptative)
-%                 [reinf1, reinf2] = RetrieveMisleadingDescriptors(F,testRange,SC,DE,TIX);
-% 
-%                 if ((balancebags==false))
-%                     iterate=true;
-%                     exclude{1}=reinf1;
-%                     exclude{2}=reinf2;
-% 
-%                     if ((size(reinf1,2)==0) && (size(reinf2,2)==0) )
-%                         balancebags=true;
-%                     end
-% 
-%                     DE = NBNNIterativeFeatureExtractor(DE,[1 2],exclude,balancebags);
-%                     
-%                     assert( size(DE.C(1).IX,1) > 0, 'No more descriptors to prune');
-%                     assert( size(DE.C(2).IX,1) > 0, 'No more descriptors to prune');
-%                 else
-%                     fprintf('Nothing more to update.\n');
-%                     iterate=false;
-%                 end
-%             else
-%                 % Just one iteration.  I wonder why matlab do not have do
-%                 % until.
-%                 iterate = false;
-%             end
-%         end
-%         SBJ(subject).DE(channel) = DE;
-%         SBJ(subject).SC(channel) = SC;
-%     end
-% 
-% 
-%     % '2'    'B'    'A'    'C'    'I'    '5'    'R'    'O'    'S'    'E'    'Z'  'U'    'P'    'P'    'A'   
-%     % 'G' 'A' 'T' 'T' 'O'    'M' 'E' 'N''T' 'E'   'V''I''O''L''A'  'R''E''B''U''S'
-%     Speller = SpellMe(F,channelRange,16:35,labelRange,trainingRange,testRange,SBJ(subject).SC);
-% 
-%     S = 'MANSOCINCOJUEGOQUESO';
-% 
-%     SpAcc = [];
-%     for channel=channelRange
-%         counter=0;
-%         for i=1:size(S,2)
-%             if Speller{channel}{i}==S(i)
-%                 counter=counter+1;
-%             end
-%         end
-%         SpAcc(end+1) = counter/size(S,2);
-%     end
-%     [a,b] = max(SpAcc)
+        fprintf('Channel %d\n', channel);
+        fprintf('Building Test Matrix M for Channel %d:', channel);
+        [TM, TIX] = BuildDescriptorMatrix(F,channel,labelRange,testRange);
+        fprintf('%d\n', size(TM,2));
+        
+        DE = NBNNFeatureExtractor(F,channel,trainingRange,labelRange,[1 2],false);
+        
+        iterate=true;
+        balancebags=false;
+        while(iterate)
+            fprintf('Bag Sizes %d vs %d \n', size(DE.C(1).IX,1),size(DE.C(2).IX,1));
+            %[ACC, ERR, AUC, SC] = LDAClassifier(F,DE,channel,trainingRange,testRange,labelRange,false);
+            [ACC, ERR, AUC, SC] = NBNNClassifier4(F,DE,channel,testRange,labelRange,false,'cosine',k);
+            %[ACC, ERR, AUC, SC] = NNetClassifier(F,DE,labelRange,trainingRange,testRange,channel)
+            P = SC.TN / (SC.TN+SC.FN);
+            globalaccij1(subject,channel)=1-ERR/size(testRange,2);
+            globalaccij2(subject,channel)=AUC;
+            
+            iterate=false;
+            
+            if (adaptative)
+                [reinf1, reinf2] = RetrieveMisleadingDescriptors(F,testRange,SC,DE,TIX);
+
+                if ((balancebags==false))
+                    iterate=true;
+                    exclude{1}=reinf1;
+                    exclude{2}=reinf2;
+
+                    if ((size(reinf1,2)==0) && (size(reinf2,2)==0) )
+                        balancebags=true;
+                    end
+
+                    DE = NBNNIterativeFeatureExtractor(DE,[1 2],exclude,balancebags);
+                    
+                    assert( size(DE.C(1).IX,1) > 0, 'No more descriptors to prune');
+                    assert( size(DE.C(2).IX,1) > 0, 'No more descriptors to prune');
+                else
+                    fprintf('Nothing more to update.\n');
+                    iterate=false;
+                end
+            else
+                % Just one iteration.  I wonder why matlab do not have do
+                % until.
+                iterate = false;
+            end
+        end
+        SBJ(subject).DE(channel) = DE;
+        SBJ(subject).SC(channel) = SC;
+    end
+
+
+    % '2'    'B'    'A'    'C'    'I'    '5'    'R'    'O'    'S'    'E'    'Z'  'U'    'P'    'P'    'A'   
+    % 'G' 'A' 'T' 'T' 'O'    'M' 'E' 'N''T' 'E'   'V''I''O''L''A'  'R''E''B''U''S'
+    Speller = SpellMe(F,channelRange,16:35,labelRange,trainingRange,testRange,SBJ(subject).SC);
+
+    S = 'MANSOCINCOJUEGOQUESO';
+
+    SpAcc = [];
+    for channel=channelRange
+        counter=0;
+        for i=1:size(S,2)
+            if Speller{channel}{i}==S(i)
+                counter=counter+1;
+            end
+        end
+        SpAcc(end+1) = counter/size(S,2);
+    end
+    [a,b] = max(SpAcc)
 
 
     %SpellerDecoder
     
     %savetemplate(subject,globalaverages,channelRange);
     %save(sprintf('subject.%d.mat', subject));
-%end
+end
 end
 %%
 for subject=subjectRange

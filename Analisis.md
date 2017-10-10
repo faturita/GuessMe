@@ -15,7 +15,7 @@ El experimento se desarrollo segun los siguientes parametros:
 * Tiempo entre trial y trial: 10 s
 * Tiempo total: 1434.563 s
 * Canales: 'Fz'    'Cz'    'Pz'    'Oz'    'P3'    'P4'    'PO7'    'PO8'
-
+* Repeticiones: Cada est?mulo de filas columnas se repite 10 veces.
 
 # Procesamiento de OpenVibe
 
@@ -126,6 +126,7 @@ Los templates obtenidos:
 * Gamma (image amplitude) = 4
 * Escalas del descriptor: 4 x 4
 * Estas cubren alrededor de 21 microVoltios y 0.84 s.
-
+* Downsample: La Fs se baja de 250 a 25 (factor de 10).
+* Filtro de Notch a 50 Hz y butterworth 
 
 
