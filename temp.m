@@ -1,24 +1,20 @@
-% EEG(subject,trial,flash)
-function [EEG, labelRange, stimRange] = prepareEEG(Fs, windowsize, downsize, flashespertrial, subjectRange,channelRange)
-
 artifactcount = 0;            
             
 for subject=subjectRange
     clear data.y_stim
     clear data.y
     clear data.X
+    clear dataX;
     clear data.trial
     load('p300.mat');
 
-    dataX = data.X;
- dataX = notchsignal(data.X, channelRange,Fs);
+    %dataX = notchsignal(data.X, channelRange,Fs);
     datatrial = data.trial;
 
-
-    
+    dataX = data.X;
     %dataX = decimateaveraging(dataX,channelRange,downsize);
- dataX = bandpasseeg(dataX, channelRange,Fs);
- dataX = decimatesignal(dataX,channelRange,downsize); 
+ %dataX = bandpasseeg(dataX, channelRange,Fs);
+ %dataX = decimatesignal(dataX,channelRange,downsize); 
     %dataX = downsample(dataX,downsize);
     
     %l=randperm(size(data.y,1));
@@ -40,7 +36,7 @@ for subject=subjectRange
             start = data.flash((trial-1)*120+flash,1);
             duration = data.flash((trial-1)*120+flash,2);
             
-            output = baselineremover(dataX,ceil(start/downsize),ceil(Fs/downsize)*windowsize,channelRange,downsize);
+            output = baselineremover(dataX,ceil(start/downsize),(Fs/downsize)*windowsize,channelRange,downsize);
 
             EEG(subject,trial,flash).label = data.y(start);
             EEG(subject,trial,flash).stim = data.y_stim(start); 
@@ -64,6 +60,4 @@ for subject=subjectRange
 
         end
     end
-end
-
 end

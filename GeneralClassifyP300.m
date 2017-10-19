@@ -1,5 +1,6 @@
+classifier=4;
 
-for subject=1:1    
+for subject=subjectRange   
     epochRange=1:epoch;
     trainingRange = 1:nbofclassespertrial*15;
     testRange=nbofclassespertrial*15+1:min(nbofclassespertrial*35,epoch);
@@ -12,98 +13,60 @@ for subject=1:1
     SBJ(subject).trainingRange = trainingRange;
     SBJ(subject).testRange = testRange;
     
-    
-%     for channel=channelRange
-%         [DE(channel), ACC, ERR, AUC, SC(channel)] = NNetClassifier(F,labelRange,trainingRange,testRange,channel);
-%         globalaccij1(subject,channel)=ACC;
-%         globalsigmaaccij1 = globalaccij1;
-%         globalaccij2(subject,channel)=AUC;
-%         SBJ(subject).DE(channel) = DE(channel);
-%         SBJ(subject).SC(channel) = SC(channel);
-%     end  
-    
-    
-    
-    
- for subject=1:1    
-    %%
-    for channel=channelRange
-        fprintf('Channel %d\n', channel);
-        fprintf('Building Test Matrix M for Channel %d:', channel);
-        [TM, TIX] = BuildDescriptorMatrix(F,channel,labelRange,testRange);
-        fprintf('%d\n', size(TM,2));
-        
-        DE = NBNNFeatureExtractor(F,channel,trainingRange,labelRange,[1 2],false);
-        
-        iterate=true;
-        balancebags=false;
-        while(iterate)
-            fprintf('Bag Sizes %d vs %d \n', size(DE.C(1).IX,1),size(DE.C(2).IX,1));
-            %[ACC, ERR, AUC, SC] = LDAClassifier(F,DE,channel,trainingRange,testRange,labelRange,false);
-            [ACC, ERR, AUC, SC] = NBNNClassifier4(F,DE,channel,testRange,labelRange,false,'cosine',k);
-            %[ACC, ERR, AUC, SC] = NNetClassifier(F,DE,labelRange,trainingRange,testRange,channel)
-            P = SC.TN / (SC.TN+SC.FN);
-            globalaccij1(subject,channel)=1-ERR/size(testRange,2);
-            globalaccij2(subject,channel)=AUC;
-            
-            iterate=false;
-            
-            if (adaptative)
-                [reinf1, reinf2] = RetrieveMisleadingDescriptors(F,testRange,SC,DE,TIX);
 
-                if ((balancebags==false))
-                    iterate=true;
-                    exclude{1}=reinf1;
-                    exclude{2}=reinf2;
-
-                    if ((size(reinf1,2)==0) && (size(reinf2,2)==0) )
-                        balancebags=true;
-                    end
-
-                    DE = NBNNIterativeFeatureExtractor(DE,[1 2],exclude,balancebags);
-                    
-                    assert( size(DE.C(1).IX,1) > 0, 'No more descriptors to prune');
-                    assert( size(DE.C(2).IX,1) > 0, 'No more descriptors to prune');
-                else
-                    fprintf('Nothing more to update.\n');
-                    iterate=false;
-                end
-            else
-                % Just one iteration.  I wonder why matlab do not have do
-                % until.
-                iterate = false;
+    switch classifier
+        case 5
+            for channel=channelRange
+                [DE(channel), ACC, ERR, AUC, SC(channel)] = LDAClassifier(F,labelRange,trainingRange,testRange,channel);
+                globalaccij1(subject,channel)=ACC;
+                globalsigmaaccij1 = globalaccij1;
+                globalaccij2(subject,channel)=AUC;
+            end  
+        case 4
+            for channel=channelRange
+                [DE(channel), ACC, ERR, AUC, SC(channel)] = SVMClassifier(F,labelRange,trainingRange,testRange,channel);
+                globalaccij1(subject,channel)=ACC;
+                globalsigmaaccij1 = globalaccij1;
+                globalaccij2(subject,channel)=AUC;
+            end            
+        case 1
+            for channel=channelRange
+                [DE(channel), ACC, ERR, AUC, SC(channel)] = NNetClassifier(F,labelRange,trainingRange,testRange,channel);
+                globalaccij1(subject,channel)=ACC;
+                globalsigmaaccij1 = globalaccij1;
+                globalaccij2(subject,channel)=AUC;
             end
-        end
-        SBJ(subject).DE(channel) = DE;
-        SBJ(subject).SC(channel) = SC;
-    end
+        case 2
+            [AccuracyPerChannel, SigmaPerChannel] = CrossValidated(F,epochRange,labelRange,channelRange, @IterativeNBNNClassifier,1);
+            globalaccij1(subject,:)=AccuracyPerChannel
+            globalsigmaaccij1(subject,:)=SigmaPerChannel;
+            globalaccijpernumberofsamples(globalnumberofepochs,subject,:) = globalaccij1(subject,:);
+        case 3
+            for channel=channelRange
+                [DE(channel), ACC, ERR, AUC, SC(channel)] = IterativeNBNNClassifier(F,channel,trainingRange,labelRange,testRange,false,false);
 
-
-    % '2'    'B'    'A'    'C'    'I'    '5'    'R'    'O'    'S'    'E'    'Z'  'U'    'P'    'P'    'A'   
-    % 'G' 'A' 'T' 'T' 'O'    'M' 'E' 'N''T' 'E'   'V''I''O''L''A'  'R''E''B''U''S'
-    Speller = SpellMe(F,channelRange,16:35,labelRange,trainingRange,testRange,SBJ(subject).SC);
-
-    S = 'MANSOCINCOJUEGOQUESO';
-
-    SpAcc = [];
-    for channel=channelRange
-        counter=0;
-        for i=1:size(S,2)
-            if Speller{channel}{i}==S(i)
-                counter=counter+1;
+                globalaccij1(subject,channel)=1-ERR/size(testRange,2);
+                globalaccij2(subject,channel)=AUC;
+                globalsigmaaccij1 = globalaccij1;
             end
-        end
-        SpAcc(end+1) = counter/size(S,2);
+        case 6
+            for channel=channelRange
+                DE(channel) = NBNNFeatureExtractor(F,channel,trainingRange,labelRange,[1 2],false); 
+
+                %[ACC, ERR, AUC, SC(channel)] = NBMultiClass(F,DE(channel),channel,testRange,labelRange,false);
+                [ACC, ERR, AUC, SC(channel)] = NBNNClassifier4(F,DE(channel),channel,testRange,labelRange,false,distancetype,k);                                                        
+                
+                globalaccij1(subject,channel)=1-ERR/size(testRange,2);
+                globalaccij2(subject,channel)=AUC;
+                globalsigmaaccij1 = globalaccij1;
+            end
+
     end
-    [a,b] = max(SpAcc)
+    SBJ(subject).DE = DE;
+    SBJ(subject).SC = SC;
+end
 
 
-    %SpellerDecoder
-    
-    %savetemplate(subject,globalaverages,channelRange);
-    %save(sprintf('subject.%d.mat', subject));
-end
-end
 %%
 for subject=subjectRange
     % '2'    'B'    'A'    'C'    'I'    '5'    'R'    'O'    'S'    'E'    'Z'  'U'    'P'    'P'    'A'   
@@ -208,3 +171,32 @@ hold off
 
 
 DisplayDescriptorImageFull(F,1,1,1,1,-1,true)
+
+
+%%
+
+for l=1:20
+    string=[];
+    for c=1:8
+        string= [string Speller{c}{l}];
+    end
+    string
+    histogram=zeros(1,50);
+    for n=1:length(string)
+        currentLetter=string(n);
+        histogram(currentLetter-47)=histogram(currentLetter-47)+1;
+    end
+    [val, ensembleletter] = max(histogram);
+    Speller{9}{l} = char(ensembleletter+47);
+end
+
+
+
+
+
+
+
+
+
+
+
