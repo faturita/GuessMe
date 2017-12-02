@@ -41,7 +41,6 @@ function initialize(box)
 	col_base = _G[box:get_setting(4)]
 	delay = box:get_setting(5)
 	--target = 'token' .. 'pizza' .. 'junky' .. 'qubit' .. 'queue' .. 'flyby' .. 'squad'
-	target = 'token' .. 'mirar' .. 'jujuy' .. 'manso' .. 'cinco' .. 'juego' .. 'queso'
 	target = 'manso' .. 'cinco' .. 'juego' .. 'queso'
 	--target = 'token'
 	-- target = 'aaaaa' .. '33333'

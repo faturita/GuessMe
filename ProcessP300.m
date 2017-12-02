@@ -37,7 +37,7 @@ for subject=1:1
         end
         % Check if all the epochs contain 10 repetitions.
         for i=1:12
-            assert( rcounter{subject}{trial}{i} == 10 );
+            %assert( rcounter{subject}{trial}{i} == 10 );
         end
     end
 end
@@ -96,8 +96,8 @@ for subject=1:1
             rmean{i} = routput{subject}{trial}{i};
             
             for c=channelRange
-                %rsignal{i}(:,c) = resample(rmean{i}(:,c),size(rmean{i},1)*timescale,size(rmean{i},1));
-                rsignal{i}(:,c) = resample(rmean{i}(:,c),1:size(rmean{i},1),timescale);
+                rsignal{i}(:,c) = resample(rmean{i}(:,c),size(rmean{i},1)*timescale,size(rmean{i},1));
+                %rsignal{i}(:,c) = resample(rmean{i}(:,c),1:size(rmean{i},1),timescale);
             end
 
             if (applyzscore)

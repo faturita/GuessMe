@@ -40,6 +40,16 @@ for subject=subjectRange
             start = data.flash((trial-1)*120+flash,1);
             duration = data.flash((trial-1)*120+flash,2);
             
+            size(dataX)
+            ceil(start/downsize)
+            
+            ceil(Fs/downsize)*windowsize
+            
+            % Check overflow
+            if (ceil(Fs/downsize)*windowsize>size(dataX,1)-ceil(start/downsize))
+                dataX = [dataX; zeros(ceil(Fs/downsize)*windowsize-size(dataX,1)+ceil(start/downsize)+1,8)];
+            end
+            
             output = baselineremover(dataX,ceil(start/downsize),ceil(Fs/downsize)*windowsize,channelRange,downsize);
 
             EEG(subject,trial,flash).label = data.y(start);
