@@ -16,9 +16,6 @@ grid =
 
 index = 0
 
-lasttargetrow = 0
-lasttargetcol = 0
-
 function get_location(c)
 	for i = 1, 6 do
 		for j = 1, 6 do
@@ -40,10 +37,6 @@ function initialize(box)
 	row_base = _G[box:get_setting(3)]
 	col_base = _G[box:get_setting(4)]
 	delay = box:get_setting(5)
-	--target = 'token' .. 'pizza' .. 'junky' .. 'qubit' .. 'queue' .. 'flyby' .. 'squad'
-	target = 'token' .. 'mirar' .. 'jujuy' .. 'manso' .. 'cinco' .. 'juego' .. 'queso'
-	--target = 'token'
-	-- target = 'aaaaa' .. '33333'
 	if target == "" then
 		for i = 1, 1000 do
 			a = math.random(1, #grid)
@@ -71,19 +64,8 @@ function process(box)
 		-- loops on every received stimulation for a given input
 		for stimulation = 1, box:get_stimulation_count(1) do
 
-
 			-- gets stimulation
 			stimulation_id, stimulation_time, stimulation_duration = box:get_stimulation(1, 1)
-
-			box:log("Info", string.format("Stimulation %010x,%f at %f (now = %f)", stimulation_id, stimulation_id, stimulation_time, stimulation_duration))
-
-			--if (index>0) then
-			--	r, c = get_location(string.sub(target, index, index))
-			--	if (row_base+r-1 == stimulation_id or col_base+c-1 == stimulation_id) then
-			--		box:log("Error", string.format("Push a Hit %010x at %f and sending %010x", stimulation_id, stimulation_time, OVTK_StimulationId_Target))
-			--		box:send_stimulation(1, OVTK_StimulationId_Target, t+delay+1, 0)
-			--	end
-			--end
 
 			if stimulation_id == OVTK_StimulationId_RestStart then
 
