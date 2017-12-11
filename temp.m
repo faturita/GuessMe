@@ -1,5 +1,9 @@
-artifactcount = 0;            
-            
+artifactcount = 0;  
+amplification=1;
+          
+flashespertrial=120;
+downsize=10;
+
 for subject=subjectRange
     clear data.y_stim
     clear data.y
@@ -13,31 +17,37 @@ for subject=subjectRange
 
     dataX = data.X;
     %dataX = decimateaveraging(dataX,channelRange,downsize);
- %dataX = bandpasseeg(dataX, channelRange,Fs);
- %dataX = decimatesignal(dataX,channelRange,downsize); 
+ dataX = bandpasseeg(dataX, channelRange,Fs);
+ dataX = decimatesignal(dataX,channelRange,downsize); 
     %dataX = downsample(dataX,downsize);
-    
+    fdsfds
     %l=randperm(size(data.y,1));
     %data.y = data.y(l);
        
+    artifact = false;
     for trial=1:size(datatrial,2)
         for flash=1:flashespertrial
-            
-            % Mark this 12 repetition segment as artifact or not.
-            %if (mod((flash-1),12)==0)
-            %    iteration = extract(dataX, (ceil(data.trial(trial)/downsize)+64/downsize*(flash-1)),64/downsize*12);
-            %    artifact=isartifact(iteration,70);  
-            artifact = false;
-            %end         
-            
-            %EEG(subject,trial,flash).EEG = zeros((Fs/downsize)*windowsize,size(channelRange,2));
-
             
             start = data.flash((trial-1)*120+flash,1);
             duration = data.flash((trial-1)*120+flash,2);
             
+            % Mark this 12 repetition segment as artifact or not.
+            if (mod((flash-1),12)==0)
+                iteration = extract(dataX, ...
+                     (ceil(start/downsize)), ...
+                     (Fs/downsize)*windowsize*12);
+                artifact=isartifact(iteration,70);  
+            end         
+            
+            %EEG(subject,trial,flash).EEG = zeros((Fs/downsize)*windowsize,size(channelRange,2));
+            
             output = baselineremover(dataX,ceil(start/downsize),(Fs/downsize)*windowsize,channelRange,downsize);
 
+            output = extract(dataX, ...
+                (ceil(start/downsize)), ...
+                (Fs/downsize)*windowsize);
+            
+            
             EEG(subject,trial,flash).label = data.y(start);
             EEG(subject,trial,flash).stim = data.y_stim(start); 
             
@@ -61,3 +71,221 @@ for subject=subjectRange
         end
     end
 end
+
+
+%%
+
+figure;
+plot(data.X);
+title('Experimento P300, 1433 s, 7 palabras de 5 letras, 120 repeticiones');
+ylabel('[microV]');
+xlabel('[ms]');
+
+
+
+%%
+figure
+hold on
+for c=channelRange
+    %plot(data.X(275222:277948,c)+c*100);
+    plot(data.X(:,c)+c*100);
+end
+legend(channels);
+title('Experimento P300, 1433 s, 7 palabras de 5 letras, 120 repeticiones');
+ylabel('[microV]');
+xlabel('[ms]');
+hold off
+
+    
+%%
+
+fprintf('Primer segmento a analizar artifactos\n');
+time1=275222.343262227;
+time2= 277948.995187305;
+
+
+figure1 = figure;
+
+% Create axes
+axes1 = axes('Parent',figure1);
+hold(axes1,'on');
+hold on
+% Create multiple lines using matrix input to plot
+for c=channelRange
+    plot(data.X(:,c)+c*100,'Parent',axes1);
+end
+xlim(axes1,[time1 time2]);
+%ylim(axes1,[-103.606833529613 119.258061149953]);
+title('Captura multicanal a partir de 275222 1100s, de 10.9040 s');
+ylabel('[microV]');
+xlabel('[ms]');
+legend(channels)
+hold off
+
+
+%%
+figure1 = figure;
+
+% Create axes
+axes1 = axes('Parent',figure1);
+hold(axes1,'on');
+hold on
+% Create multiple lines using matrix input to plot
+for c=channelRange
+    plot(dataX(:,c)+c*100,'Parent',axes1);
+end
+xlim(axes1,[time1/downsize time2/downsize]);
+%ylim(axes1,[-103.606833529613 119.258061149953]);
+title('Captura multicanal a partir de 275222 1100s, de 10.9040 s');
+ylabel('[microV]');
+xlabel('[ms]');
+legend(channels)
+hold off
+
+%%
+    % Ojo que reduce los canales... e FASTICA los invierte.
+    %output = fastica(output');
+    
+     %output = output';
+    
+[coeff, score, latent] = princomp(data.X);
+
+cumsum(latent)./sum(latent)
+    
+figure1 = figure;
+
+% Create axes
+axes1 = axes('Parent',figure1);
+hold(axes1,'on');
+hold on
+% Create multiple lines using matrix input to plot
+for c=channelRange
+    plot(score(:,c)*amplification+c*100,'Parent',axes1);
+end
+xlim(axes1,[time1 time2]);
+%ylim(axes1,[-103.606833529613 119.258061149953]);
+title(sprintf('Captura multicanal a partir de %10.2f %10.2f s, de 10.9040 s de largo',time1,time1/Fs));
+ylabel('[microV]');
+xlabel('[ms]');
+legend(channels)
+hold off    
+
+[output, A, W] = fastica(data.X');
+    
+icas = output';
+
+
+figure1 = figure;
+
+% Create axes
+axes1 = axes('Parent',figure1);
+hold(axes1,'on');
+hold on
+% Create multiple lines using matrix input to plot
+for c=channelRange
+    plot(icas(:,c)*amplification+c*100,'Parent',axes1);
+end
+xlim(axes1,[time1 time2]);
+%ylim(axes1,[-103.606833529613 119.258061149953]);
+title(sprintf('Captura multicanal a partir de %10.2f %10.2f s, de 10.9040 s de largo',time1,time1/Fs));
+ylabel('[microV]');
+xlabel('[ms]');
+legend(channels)
+hold off  
+
+
+WW = inv(W);
+icas(:,1) = zeros(size(icas,1),1);
+icas(:,2) = zeros(size(icas,1),1);
+eeg = WW * icas';
+eeg=eeg';
+
+
+figure1 = figure;
+
+% Create axes
+axes1 = axes('Parent',figure1);
+hold(axes1,'on');
+hold on
+% Create multiple lines using matrix input to plot
+for c=channelRange
+    plot(eeg(:,c)+c*100,'Parent',axes1);
+end
+xlim(axes1,[time1 time2]);
+%ylim(axes1,[-103.606833529613 119.258061149953]);
+title('Captura multicanal a partir de 275222 1100s, de 10.9040 s');
+ylabel('[microV]');
+xlabel('[ms]');
+legend(channels)
+hold off
+
+%%
+fprintf('Extraccion de baseline para identificacion del p300 single trial\n');
+time1=346774.193548387;
+time2=348774.774193548;
+
+figure1 = figure;
+
+% Create axes
+axes1 = axes('Parent',figure1);
+hold(axes1,'on');
+hold on
+% Create multiple lines using matrix input to plot
+for c=channelRange
+    plot(data.X(:,c)+c*100,'Parent',axes1);
+end
+xlim(axes1,[time1 time2]);
+%ylim(axes1,[-103.606833529613 119.258061149953]);
+title(sprintf('Captura multicanal a partir de %10.2f %10.2f s, de 10.9040 s de largo',time1,time1/Fs));
+ylabel('[microV]');
+xlabel('[ms]');
+legend(channels)
+hold off
+
+%%
+figure1 = figure;
+
+% Create axes
+axes1 = axes('Parent',figure1);
+hold(axes1,'on');
+hold on
+% Create multiple lines using matrix input to plot
+for c=channelRange
+    plot(dataX(:,c)+c*100,'Parent',axes1);
+end
+xlim(axes1,[time1/downsize time2/downsize]);
+%ylim(axes1,[-103.606833529613 119.258061149953]);
+title(sprintf('Captura multicanal decimada x 10 a partir de %10.2f %10.2f s, de 10.9040 s de largo',time1,time1/Fs));ylabel('[microV]');
+xlabel('[ms]');
+legend(channels)
+hold off
+
+
+%%
+amplification=1;
+dtt=4086;
+dtt=4089;
+for dtt=120*34:120*35
+    if (targets(dtt,2)==2)
+        targets(dtt,:)
+        targets(120*34+6,:);
+        stimulations(120*34+6,:);
+        EEG(1,35,6);
+
+        time1=targets(dtt,1)*Fs;
+        time2=targets(dtt,1)*Fs+Fs;
+
+        %plotthiseeg(data.X,channels,channelRange,time1,time2,false);
+
+        plotthiseeg(dataX,channels,channelRange,time1/downsize,time2/downsize,true);
+
+        %plotthiseeg(dataX,channels,channelRange,time1/downsize,time2/downsize,false);
+
+    end
+end
+
+%figure;
+%plot(EEG(1,35,6).EEG)
+
+
+

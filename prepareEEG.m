@@ -8,18 +8,21 @@ for subject=subjectRange
     clear data.y
     clear data.X
     clear data.trial
+<<<<<<< HEAD
+    load(sprintf('./signals/p300-subject-%02d.mat', subject));
+=======
     load(sprintf('./signals/p300-subject-%02d.mat',subject));
     
+>>>>>>> c13ccd1a65cdb0dc895c0712cf578b45752ac60c
 
     dataX = data.X;
  dataX = notchsignal(data.X, channelRange,Fs);
     datatrial = data.trial;
 
 
-    
-    %dataX = decimateaveraging(dataX,channelRange,downsize);
  dataX = bandpasseeg(dataX, channelRange,Fs);
  dataX = decimatesignal(dataX,channelRange,downsize); 
+ %dataX = decimateaveraging(dataX,channelRange,downsize);
     %dataX = downsample(dataX,downsize);
     
     %l=randperm(size(data.y,1));
@@ -41,18 +44,35 @@ for subject=subjectRange
             start = data.flash((trial-1)*120+flash,1);
             duration = data.flash((trial-1)*120+flash,2);
             
+<<<<<<< HEAD
+            % Check overflow of the EEG matrix
+=======
             size(dataX)
             ceil(start/downsize)
             
             ceil(Fs/downsize)*windowsize
             
             % Check overflow
+>>>>>>> c13ccd1a65cdb0dc895c0712cf578b45752ac60c
             if (ceil(Fs/downsize)*windowsize>size(dataX,1)-ceil(start/downsize))
                 dataX = [dataX; zeros(ceil(Fs/downsize)*windowsize-size(dataX,1)+ceil(start/downsize)+1,8)];
             end
             
+<<<<<<< HEAD
+%            output = baselineremover(dataX,ceil(start/downsize),ceil(Fs/downsize)*windowsize,channelRange,downsize);
+=======
             output = baselineremover(dataX,ceil(start/downsize),ceil(Fs/downsize)*windowsize,channelRange,downsize);
+>>>>>>> c13ccd1a65cdb0dc895c0712cf578b45752ac60c
 
+            
+            output = extract(dataX, ...
+                (ceil(start/downsize)), ...
+                (Fs/downsize)*windowsize);
+            
+            
+            %output=bf(output,1:5:size(output,2));
+            
+            
             EEG(subject,trial,flash).label = data.y(start);
             EEG(subject,trial,flash).stim = data.y_stim(start); 
             

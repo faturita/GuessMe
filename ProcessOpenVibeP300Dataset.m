@@ -237,10 +237,21 @@ for i=1:size(targets,1)
         
         %fakeEEG(j,:);
     end
+<<<<<<< HEAD
+    
+    if (targets(i,2)==2)
+        %data.X(maximalsampleidx+ceil(Fs*duration)-1:maximalsampleidx+ceil(Fs*duration)-1+ceil(Fs*0.33),:) = zeros(ceil(Fs*0.33)+1,size(data.X,2));
+        %data.X(maximalsampleidx-1:maximalsampleidx-1+ceil(Fs*1),:) = zeros(ceil(Fs*1)+1,size(data.X,2));
+ 
+        %data.X(maximalsampleidx-1+ceil(Fs/2*1),:) = 1000*ones(1,size(data.X,2));
+        
+    end    
+=======
    
     %if (targets(i,2)==2)
     %    data.X(maximalsampleidx+1-1:maximalsampleidx+1-1+ceil(Fs*0.33),:) = zeros(ceil(Fs*0.33)+1,size(data.X,2));
     %end    
+>>>>>>> c13ccd1a65cdb0dc895c0712cf578b45752ac60c
     
 end
 
@@ -277,3 +288,10 @@ save(sprintf('./signals/p300-subject-%02d.mat',subject));
 % LISTOOOOOO
  
 end
+<<<<<<< HEAD
+%%
+
+run('ProcessP300.m');
+run('GeneralClassifyP300.m');
+=======
+>>>>>>> c13ccd1a65cdb0dc895c0712cf578b45752ac60c
