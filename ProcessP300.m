@@ -2,20 +2,20 @@
 
 channels={ 'Fz'  ,  'Cz',    'P3' ,   'Pz'  ,  'P4'  , 'PO7'   , 'PO8',  'Oz'};
 windowsize=1;
-<<<<<<< HEAD
+
 downsize=40;
 imagescale=1*6;
 timescale=1*6;
 amplitude=1;
 
 sqKS=[18];
-=======
+
 downsize=10;
 imagescale=2;
 timescale=4;
 amplitude=3;
 sqKS=[44]+zeros(1,40);
->>>>>>> c13ccd1a65cdb0dc895c0712cf578b45752ac60c
+
 siftscale=[2 2];
 siftdescriptordensity=1;
 minimagesize=floor(sqrt(2)*15*siftscale(2)+1);
@@ -29,12 +29,11 @@ featuretype=1;
 classifier=6;
 
 %SVM
-<<<<<<< HEAD
 %featuretype=2;
 %timescale=1;
 %applyzscore=false;
 %classifier=4;
-=======
+
 featuretype=2;
 timescale=1;
 applyzscore=false;
@@ -47,19 +46,13 @@ clear rcounter;
 clear routput;
 clear rmean;
 Fs=250;
->>>>>>> c13ccd1a65cdb0dc895c0712cf578b45752ac60c
 
 
 
 for subject=23:23
     
-<<<<<<< HEAD
-EEG = prepareEEG(Fs,windowsize,downsize,120,1:1,1:8);
-Fs=floor(Fs/downsize);
-=======
 EEG = prepareEEG(Fs,windowsize,downsize,120,23:23,1:8);
 Fs=ceil(Fs/downsize);
->>>>>>> c13ccd1a65cdb0dc895c0712cf578b45752ac60c
 
 
 for subject=23:23
