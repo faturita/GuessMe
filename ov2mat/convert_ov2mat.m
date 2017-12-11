@@ -4,6 +4,10 @@
 function convert_ov2mat(inputOvFilename, outputMatFilename)
 
 	openvibeConvert = '"C:\openvibe\openvibe-convert.cmd"';
+    
+    if (~exist(openvibeConvert,'file'))
+        openvibeConvert = '"D:\openvibe\openvibe-convert.cmd"';
+    end
 	
 	csvFn = regexprep(inputOvFilename, '\.ov$', '\.csv');	
 	stimFn = regexprep(inputOvFilename, '\.ov$', '\.csv\.stims\.csv');	
@@ -14,6 +18,7 @@ function convert_ov2mat(inputOvFilename, outputMatFilename)
 	fprintf(1, '    Markers: %s\n', stimFn);
 	
 	cmd = sprintf('%s %s %s', openvibeConvert, inputOvFilename, csvFn);
+    disp(cmd);
 	system(cmd);
 	
 	fprintf(1, '  Loading pair...\n');
