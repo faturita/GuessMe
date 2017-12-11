@@ -36,7 +36,8 @@ channels={ 'Fz '  ,  'Cz ',    'Pz ' ,   'Oz '  ,  'P3 '  ,  'P4 '   , 'PO7'   ,
 channels={ 'Fz'  ,  'Cz',    'P3' ,   'Pz'  ,  'P4'  , 'PO7'   , 'PO8',  'Oz'};
 
 % Parameters ==========================
-subjectRange=[1 2 3 4 7 8 9 10 11];
+subjectRange=[1 2 3 4 6 7 8 9 10 11 14 15 16 17 18 19 20 21 22 23];
+subjectRange=6:6;
 epochRange = 1:120*7*5;
 channelRange=1:8;
 labelRange = [];
@@ -94,6 +95,12 @@ for subject=subjectRange
             end
             output = EEG(subject,trial,flash).EEG;
             routput{subject}{trial}{EEG(subject,trial,flash).stim} = [routput{subject}{trial}{EEG(subject,trial,flash).stim} ;output];
+            
+            if (hit{subject}{trial}{EEG(subject,trial,flash).stim}>0 && ...
+                    hit{subject}{trial}{EEG(subject,trial,flash).stim} ~= EEG(subject,trial,flash).label)
+                error('Inconsistent hit assignation.');
+            end
+            
             hit{subject}{trial}{EEG(subject,trial,flash).stim} = EEG(subject,trial,flash).label;
         end
     end
@@ -149,8 +156,8 @@ for subject=subjectRange
             
             if (timescale ~= 1)
                 for c=channelRange
-                    %rsignal{i}(:,c) = resample(rmean{i}(:,c),size(rmean{i},1)*timescale,size(rmean{i},1));
-                    rsignal{i}(:,c) = resample(rmean{i}(:,c),1:size(rmean{i},1),timescale);
+                    rsignal{i}(:,c) = resample(rmean{i}(:,c),size(rmean{i},1)*timescale,size(rmean{i},1));
+                    %rsignal{i}(:,c) = resample(rmean{i}(:,c),1:size(rmean{i},1),timescale);
                 end
             else
                 rsignal{i} = rmean{i};

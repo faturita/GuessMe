@@ -14,7 +14,7 @@ subjectartifacts = 0;
 subjectsingletriality=119;
 
 %for subjectsingletriality=12*[10:-3:1]-1
-for subject = 1:23
+for subject = 6:6 %[1 2 3 4 6 7 8 9 10 11 14 15 16 17 18 19 20 21 22 23];
 clear mex;clearvars  -except subject*;close all;clc;
 
 %Parameters
@@ -41,7 +41,7 @@ end
 % data.y(sample)  --> 0: no, 1:nohit, 2:hit
 % data.y_stim(sample) --> 1-12, 1-6 cols, 7-12 rows
 
-%     'Fz'    'Cz'    'Pz'    'Oz'    'P3'    'P4'    'PO7'    'PO8'
+channels={ 'Fz'  ,  'Cz',    'P3' ,   'Pz'  ,  'P4'  , 'PO7'   , 'PO8',  'Oz'};
 channelRange=1:8;
 
 
@@ -64,15 +64,18 @@ for i=1:12
     stimuls = [stimuls; find(stims(:,2)==33025-1+i)];
 end
 
-
 %%
 % Chequear si la cantidad de estimulos encontradas coincide.
+% 33025 es el label 1.
 total=0;
 for i=1:12
-    size(find(stims(:,2)==33025-1+i))
-    total=total+size(find(stims(:,2)==33025-1+i))
+    [i size(find(stims(:,2)==33025-1+i),1)]
+    total=total+size(find(stims(:,2)==33025-1+i),1);
 end
 
+assert ((size(stimuls,1) == total), 'Stimulus found do not match.');
+
+%%
 % Los stimulos pueden venir despues de muchas cosas.
 % Filtrar solo aquellos estimulos que estan asociados a targets.
 counterhits=0;
@@ -95,20 +98,22 @@ end
 % Chequear si los targets estan bien asignados a los mismos estimulos
 % dentro del mismo trial.
 %%
+assert ( size(a,1) == 700,  'Hit number of stimulations do not match 20 x 35');
+assert ( size(b,1) == 3500, 'Nohit number of stimulations do not match 100 x 35');
+
 for trial=1:Trials
     h=[];
-    for i=1:20
+    for i=1:20  % Hay 20 hits en cada trial, 20*35 = 700 que es el tamaño de a
         vl=stims(a((trial-1)*20+i)+1,1:2);
-        [(trial-1)*Trials+i vl(2)];
+        %[(trial-1)*Trials+i vl(2)]
         h=[h vl(2)];
     end
     h = unique(h);
-    h
+    [trial h]
     % Verificar que para cada trial, solo haya dos tipos de estimulos
     % asociados a hit (el correspondiente a las filas y el de las columnas)
     assert( size(h,2) == 2);
 end
-
 
 %%
 ab = [a; b];
@@ -179,6 +184,8 @@ end
 fprintf('Copy-spelled word:');
 Word
 
+% Esto significat que stimulations coincide con los targets.
+
 %% Data Structure
 data = cell(0);
 
@@ -236,8 +243,13 @@ for i=1:size(targets,1)
         data.y_stim(idx+j-1) = stimulations(i,2);
         
         %fakeEEG(j,:);
+        
     end
-<<<<<<< HEAD
+    
+    
+    data.flash(end,3) = stimulations(i,2);
+    data.flash(end,4) = targets(i,2);
+    
     
     if (targets(i,2)==2)
         %data.X(maximalsampleidx+ceil(Fs*duration)-1:maximalsampleidx+ceil(Fs*duration)-1+ceil(Fs*0.33),:) = zeros(ceil(Fs*0.33)+1,size(data.X,2));
@@ -246,12 +258,10 @@ for i=1:size(targets,1)
         %data.X(maximalsampleidx-1+ceil(Fs/2*1),:) = 1000*ones(1,size(data.X,2));
         
     end    
-=======
    
     %if (targets(i,2)==2)
     %    data.X(maximalsampleidx+1-1:maximalsampleidx+1-1+ceil(Fs*0.33),:) = zeros(ceil(Fs*0.33)+1,size(data.X,2));
     %end    
->>>>>>> c13ccd1a65cdb0dc895c0712cf578b45752ac60c
     
 end
 
@@ -288,10 +298,8 @@ save(sprintf('./signals/p300-subject-%02d.mat',subject));
 % LISTOOOOOO
  
 end
-<<<<<<< HEAD
 %%
 
-run('ProcessP300.m');
-run('GeneralClassifyP300.m');
-=======
->>>>>>> c13ccd1a65cdb0dc895c0712cf578b45752ac60c
+%run('ProcessP300.m');
+%run('GeneralClassifyP300.m');
+
