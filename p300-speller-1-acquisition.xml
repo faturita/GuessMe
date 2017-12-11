@@ -222,7 +222,7 @@
 					<TypeIdentifier>(0x007deef9, 0x2f3e95c6)</TypeIdentifier>
 					<Name>Number of trials</Name>
 					<DefaultValue>5</DefaultValue>
-					<Value>20</Value>
+					<Value>35</Value>
 					<Modifiability>false</Modifiability>
 				</Setting>
 				<Setting>

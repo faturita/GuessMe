@@ -14,14 +14,12 @@ subjectartifacts = 0;
 subjectsingletriality=119;
 
 %for subjectsingletriality=12*[10:-3:1]-1
-for subject = 12:12
+for subject = 1:19
 clear mex;clearvars  -except subject*;close all;clc;
 
 %Parameters
 Fs=250;
-Trials=20;
-
-
+Trials=35;
 
 % Clean all the directories where the images are located.
 cleanimagedirectory();
