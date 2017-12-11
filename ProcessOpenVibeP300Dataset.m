@@ -14,7 +14,7 @@ subjectartifacts = 0;
 subjectsingletriality=119;
 
 %for subjectsingletriality=12*[10:-3:1]-1
-for subject = 1:23
+for subject = [1 2 3 4 6 7 8 9 10 11 14 15 16 17 18 19 20 21 22 23];
 clear mex;clearvars  -except subject*;close all;clc;
 
 %Parameters

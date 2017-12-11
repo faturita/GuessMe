@@ -3,9 +3,10 @@
 
 function convert_ov2mat(inputOvFilename, outputMatFilename)
 
+    openvibeConvertFile = 'C:\openvibe\openvibe-convert.cmd';
 	openvibeConvert = '"C:\openvibe\openvibe-convert.cmd"';
     
-    if (~exist(openvibeConvert,'file'))
+    if (~exist(openvibeConvertFile,'file'))
         openvibeConvert = '"D:\openvibe\openvibe-convert.cmd"';
     end
 	
