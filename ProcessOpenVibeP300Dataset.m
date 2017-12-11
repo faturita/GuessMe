@@ -14,15 +14,18 @@ subjectartifacts = 0;
 subjectsingletriality=119;
 
 %for subjectsingletriality=12*[10:-3:1]-1
-for subject = 1:19
+for subject = 1:23
 clear mex;clearvars  -except subject*;close all;clc;
 
 %Parameters
 Fs=250;
 Trials=35;
 
+
+
 % Clean all the directories where the images are located.
 cleanimagedirectory();
+
 
 %subject = 2;
 convert_ov2mat(sprintf('./signals/Subject%d/p300-train.ov',subject),sprintf('./signals/p300-train-%d.mat',subject));
@@ -192,11 +195,18 @@ for i=1:size(targets,1)
     % (e) y del principio (f)
     startset = find(stims(f,1)<=targets(i,1));
     startset = sort(startset);
-    start = startset(end);
     
     endset = find(stims(e,1)>=targets(i,1));
     endset = sort(endset);
     endd = endset(1); % Location on e.
+    
+    if (size(startset,1)==0)
+        % En algunos casos la primera estimulacion cae despues del primer
+        % target.
+        start = endd;
+    else
+        start = startset(end);
+    end
     
     duration = stims(e(endd),1)-stims(f(endd),1);
     
@@ -251,7 +261,9 @@ for i=1:Trials*12*10
     ss=data.y_stim(data.flash(i)-5:data.flash(i)+40)'
     
     if (subject ~= 8 && i ~= 2526) && ...
-            (subject ~= 11 && i ~= 2470)
+            (subject ~= 11 && i ~= 2470) && ...
+            (subject ~= 13 && i ~= 1974) && ...
+            (subject ~= 20 && i ~= 1524)
      assert ( ss(5) == 0, 'Not zero');
     end
     
@@ -260,7 +272,7 @@ end
 %%
 
 %data.X = data.X * 10;
-save(sprintf('p300-subject-%02d.mat',subject));
+save(sprintf('./signals/p300-subject-%02d.mat',subject));
 
 % LISTOOOOOO
  

@@ -1,4 +1,4 @@
-load('p300.mat');
+%load('p300.mat');
 
 channels={ 'Fz'  ,  'Cz',    'Pz' ,   'Oz'  ,  'P3'  ,  'P4'   , 'PO7'   , 'PO8'};
 windowsize=1;
@@ -6,7 +6,7 @@ downsize=10;
 imagescale=2;
 timescale=4;
 amplitude=3;
-sqKS=[44];
+sqKS=[44]+zeros(1,40);
 siftscale=[2 2];
 siftdescriptordensity=1;
 minimagesize=floor(sqrt(2)*15*siftscale(2)+1);
@@ -22,14 +22,24 @@ featuretype=2;
 timescale=1;
 applyzscore=false;
 
+featuretype=1;
+timescale=4;
+applyzscore=true;
+
+clear rcounter;
+clear routput;
+clear rmean;
+Fs=250;
 
 
-for subject=1:1
+
+for subject=23:23
     
-EEG = prepareEEG(Fs,windowsize,downsize,120,1:1,1:8);
+EEG = prepareEEG(Fs,windowsize,downsize,120,23:23,1:8);
 Fs=ceil(Fs/downsize);
 
-for subject=1:1
+
+for subject=23:23
     for trial=1:35
         for i=1:12 rcounter{subject}{trial}{i} = 0; end
         for flash=1:120
@@ -39,6 +49,7 @@ for subject=1:1
         for i=1:12
             %assert( rcounter{subject}{trial}{i} == 10 );
         end
+        rcounter{subject}{trial}
     end
 end
 
@@ -46,7 +57,7 @@ end
 %%
 % Build routput pasting epochs toghether...
 clear hit
-for subject=1:1
+for subject=23:23
     for trial=1:35
         for i=1:12 hit{subject}{trial}{i} = 0; end
         for i=1:12 routput{subject}{trial}{i} = []; end
@@ -61,7 +72,7 @@ end
 %%
 h=[];
 Word=[];
-for subject=1:1
+for subject=23:23
     for trial=1:35
         hh = [];
         for i=1:12
@@ -88,7 +99,7 @@ for subject=1:1
 end
 
 clear rsignal
-for subject=1:1
+for subject=23:23
     for trial=1:35
         
         for i=1:12
@@ -119,7 +130,7 @@ if (featuretype == 1)
     labelRange=[];
     epochRange=[];
     stimRange=[];
-    for subject=1:1
+    for subject=23:23
         for trial=1:35        
             for i=1:12
             epoch=epoch+1;    
@@ -156,7 +167,7 @@ else
     labelRange=[];
     epochRange=[];
     stimRange=[];
-    for subject=1:1
+    for subject=23:23
         for trial=1:35        
             for i=1:12
                 epoch=epoch+1;    

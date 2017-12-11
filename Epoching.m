@@ -17,13 +17,13 @@ minimagesize=floor(sqrt(2)*15*siftscale(2)+1);
 nbofclassespertrial=12;
 k=7;
 adaptative=false;
-subjectRange=19:19;
+subjectRange=21:21;
 
-subject=19;
 Trials=35;
 Fs=250;
 
-EEG = prepareEEG(sprintf('p300-subject-%02d.mat',subject),Fs,windowsize,downsize,120,1:1,1:8);
+EEG = prepareEEG(Fs,windowsize,downsize,120,subjectRange,1:8);
+
 Fs=Fs/downsize;
 for i=1:12 rcounter{i} = 0; end
 

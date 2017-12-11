@@ -8,7 +8,8 @@ for subject=subjectRange
     clear data.y
     clear data.X
     clear data.trial
-    load('p300.mat');
+    load(sprintf('./signals/p300-subject-%02d.mat',subject));
+    
 
     dataX = data.X;
  dataX = notchsignal(data.X, channelRange,Fs);

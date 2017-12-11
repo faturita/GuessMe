@@ -1,4 +1,4 @@
-classifier=4;
+classifier=6;
 
 for subject=subjectRange   
     epochRange=1:epoch;
