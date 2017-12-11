@@ -14,8 +14,9 @@ El experimento se desarrollo segun los siguientes parametros:
 * Tiempo entre flash y flash: 0.125 ms.
 * Tiempo entre trial y trial: 10 s
 * Tiempo total: 1434.563 s
-* Canales: 'Fz'    'Cz'    'Pz'    'Oz'    'P3'    'P4'    'PO7'    'PO8'
-* Repeticiones: Cada est?mulo de filas columnas se repite 10 veces.
+* Canales: 'Fz'    'Cz'    'P3'    'Pz'    'P4'    'PO7'    'PO8'    'Oz'
+* Repeticiones: Cada estímulo de filas columnas se repite 10 veces.
+
 
 # Procesamiento de OpenVibe
 
@@ -41,7 +42,7 @@ De estos datos surge el procedimiento para procesar offline los datos:
 * Clasificar.
 * Validar
 
-# Procesamiento de OpenVibe
+# Ajustes
 
 En la captura del dataset, se determin? que hay un trial adicional que se col?, y que hay eliminar.
 As? se limitan solamente a 4200 targets y est?mulos correspondientes (7 x 5 x 120)
@@ -218,3 +219,18 @@ ans =
     'O'    'Q'    'U'    'E'    'S'    'O'
 
 ```
+
+# Prueba exhaustiva de localizacion vertical y horizontal del descriptor
+
+Iterando, para la configuración de parámetros que se pudo obtener la mejor configuración, la hipótesis es verificar si existe una localización única general específica que pueda mejorar la clasificación.
+
+Lo que se encontró es que la mejor localización horizontal corresponde a la localización 32 (de 50).
+
+La localizacion vertical que obtiene mejor clasificacion es precisamente la localizacion que coincide con el nivel cero de la imagen (el valor de la imagen donde se ubica el zero de la señal en ese segmento).
+
+
+# Walkthrough
+
+## Eliminación de artefactos.
+
+La señal completa es la siguiente:

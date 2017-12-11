@@ -1,12 +1,13 @@
 load('p300.mat');
 
-channels={ 'Fz'  ,  'Cz',    'Pz' ,   'Oz'  ,  'P3'  ,  'P4'   , 'PO7'   , 'PO8'};
+channels={ 'Fz'  ,  'Cz',    'P3' ,   'Pz'  ,  'P4'  , 'PO7'   , 'PO8',  'Oz'};
 windowsize=1;
-downsize=10;
-imagescale=2;
-timescale=4;
-amplitude=3;
-sqKS=[44];
+downsize=40;
+imagescale=1*6;
+timescale=1*6;
+amplitude=1;
+
+sqKS=[18];
 siftscale=[2 2];
 siftdescriptordensity=1;
 minimagesize=floor(sqrt(2)*15*siftscale(2)+1);
@@ -15,19 +16,21 @@ k=7;
 adaptative=false;
 subjectRange=1:1;
 distancetype='cosine';
-applyzscore=false;
+applyzscore=true;
+featuretype=1;
+classifier=6;
 
 %SVM
-featuretype=2;
-timescale=1;
-applyzscore=false;
-
+%featuretype=2;
+%timescale=1;
+%applyzscore=false;
+%classifier=4;
 
 
 for subject=1:1
     
 EEG = prepareEEG(Fs,windowsize,downsize,120,1:1,1:8);
-Fs=ceil(Fs/downsize);
+Fs=floor(Fs/downsize);
 
 for subject=1:1
     for trial=1:35
@@ -103,7 +106,7 @@ for subject=1:1
             if (applyzscore)
                 rsignal{i} = zscore(rsignal{i})*amplitude;
             else
-                rsignal{i} = rsignal{i};
+                rsignal{i} = rsignal{i}*amplitude;
             end
             
             routput{subject}{trial}{i} = rsignal{i};
@@ -129,8 +132,10 @@ if (featuretype == 1)
             DS = [];
             rsignal{i}=routput{subject}{trial}{i};
             for channel=channelRange
-                [eegimg, DOTS, zerolevel] = eegimage(channel,rsignal{i},imagescale,1, false,minimagesize);
-
+                %minimagesize=1;
+                [eegimg, DOTS, zerolevel] = eegimage2(channel,rsignal{i},imagescale,1, false,minimagesize);
+                %siftscale(1) = 11.7851;
+                %siftscale(2) = (height-1)/(sqrt(2)*15);
                 saveeegimage(subject,epoch,label,channel,eegimg);
                 zerolevel = size(eegimg,1)/2;
 
@@ -138,6 +143,7 @@ if (featuretype == 1)
     %                qKS=ceil(0.20*(Fs)*timescale):floor(0.20*(Fs)*timescale+(Fs)*timescale/4-1);
     %             else
                     qKS=sqKS(subject);
+                    %qKS=125;
     %             end
 
                 [frames, desc] = PlaceDescriptorsByImage(eegimg, DOTS,siftscale, siftdescriptordensity,qKS,zerolevel,false,distancetype);            
