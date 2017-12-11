@@ -17,17 +17,18 @@ minimagesize=floor(sqrt(2)*15*siftscale(2)+1);
 nbofclassespertrial=12;
 k=7;
 adaptative=false;
-subjectRange=1:1;
+subjectRange=21:21;
 
+Trials=35;
+Fs=250;
 
-load('p300.mat');
+EEG = prepareEEG(Fs,windowsize,downsize,120,subjectRange,1:8);
 
-EEG = prepareEEG(Fs,windowsize,downsize,120,1:1,1:8);
 Fs=Fs/downsize;
 for i=1:12 rcounter{i} = 0; end
 
-for subject=1:1
-    for trial=1:35
+for subject=subjectRange
+    for trial=1:Trials
         for flash=1:120
             rcounter{EEG(subject,trial,flash).stim} = rcounter{EEG(subject,trial,flash).stim}+1;
         end
@@ -43,9 +44,9 @@ rcounter = 0;
 bcounter = 0;
 processedflashes = 0;
 
-for subject=1:1
+for subject=subjectRange
    epoch=0;
-   for trial=1:35
+   for trial=1:Trials
         %routput = [];
         %boutput = [];
         %rcounter = 0;

@@ -1,13 +1,21 @@
-load('p300.mat');
+%load('p300.mat');
 
 channels={ 'Fz'  ,  'Cz',    'P3' ,   'Pz'  ,  'P4'  , 'PO7'   , 'PO8',  'Oz'};
 windowsize=1;
+<<<<<<< HEAD
 downsize=40;
 imagescale=1*6;
 timescale=1*6;
 amplitude=1;
 
 sqKS=[18];
+=======
+downsize=10;
+imagescale=2;
+timescale=4;
+amplitude=3;
+sqKS=[44]+zeros(1,40);
+>>>>>>> c13ccd1a65cdb0dc895c0712cf578b45752ac60c
 siftscale=[2 2];
 siftdescriptordensity=1;
 minimagesize=floor(sqrt(2)*15*siftscale(2)+1);
@@ -21,18 +29,40 @@ featuretype=1;
 classifier=6;
 
 %SVM
+<<<<<<< HEAD
 %featuretype=2;
 %timescale=1;
 %applyzscore=false;
 %classifier=4;
+=======
+featuretype=2;
+timescale=1;
+applyzscore=false;
+
+featuretype=1;
+timescale=4;
+applyzscore=true;
+
+clear rcounter;
+clear routput;
+clear rmean;
+Fs=250;
+>>>>>>> c13ccd1a65cdb0dc895c0712cf578b45752ac60c
 
 
-for subject=1:1
+
+for subject=23:23
     
+<<<<<<< HEAD
 EEG = prepareEEG(Fs,windowsize,downsize,120,1:1,1:8);
 Fs=floor(Fs/downsize);
+=======
+EEG = prepareEEG(Fs,windowsize,downsize,120,23:23,1:8);
+Fs=ceil(Fs/downsize);
+>>>>>>> c13ccd1a65cdb0dc895c0712cf578b45752ac60c
 
-for subject=1:1
+
+for subject=23:23
     for trial=1:35
         for i=1:12 rcounter{subject}{trial}{i} = 0; end
         for flash=1:120
@@ -40,8 +70,9 @@ for subject=1:1
         end
         % Check if all the epochs contain 10 repetitions.
         for i=1:12
-            assert( rcounter{subject}{trial}{i} == 10 );
+            %assert( rcounter{subject}{trial}{i} == 10 );
         end
+        rcounter{subject}{trial}
     end
 end
 
@@ -49,7 +80,7 @@ end
 %%
 % Build routput pasting epochs toghether...
 clear hit
-for subject=1:1
+for subject=23:23
     for trial=1:35
         for i=1:12 hit{subject}{trial}{i} = 0; end
         for i=1:12 routput{subject}{trial}{i} = []; end
@@ -64,7 +95,7 @@ end
 %%
 h=[];
 Word=[];
-for subject=1:1
+for subject=23:23
     for trial=1:35
         hh = [];
         for i=1:12
@@ -91,7 +122,7 @@ for subject=1:1
 end
 
 clear rsignal
-for subject=1:1
+for subject=23:23
     for trial=1:35
         
         for i=1:12
@@ -99,8 +130,8 @@ for subject=1:1
             rmean{i} = routput{subject}{trial}{i};
             
             for c=channelRange
-                %rsignal{i}(:,c) = resample(rmean{i}(:,c),size(rmean{i},1)*timescale,size(rmean{i},1));
-                rsignal{i}(:,c) = resample(rmean{i}(:,c),1:size(rmean{i},1),timescale);
+                rsignal{i}(:,c) = resample(rmean{i}(:,c),size(rmean{i},1)*timescale,size(rmean{i},1));
+                %rsignal{i}(:,c) = resample(rmean{i}(:,c),1:size(rmean{i},1),timescale);
             end
 
             if (applyzscore)
@@ -122,7 +153,7 @@ if (featuretype == 1)
     labelRange=[];
     epochRange=[];
     stimRange=[];
-    for subject=1:1
+    for subject=23:23
         for trial=1:35        
             for i=1:12
             epoch=epoch+1;    
@@ -162,7 +193,7 @@ else
     labelRange=[];
     epochRange=[];
     stimRange=[];
-    for subject=1:1
+    for subject=23:23
         for trial=1:35        
             for i=1:12
                 epoch=epoch+1;    

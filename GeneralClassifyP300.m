@@ -1,5 +1,4 @@
 
-
 for subject=subjectRange   
     epochRange=1:epoch;
     trainingRange = 1:nbofclassespertrial*15;
