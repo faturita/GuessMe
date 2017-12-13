@@ -14,7 +14,7 @@ subjectartifacts = 0;
 subjectsingletriality=119;
 
 %for subjectsingletriality=12*[10:-3:1]-1
-for subject = 6:6 %[1 2 3 4 6 7 8 9 10 11 14 15 16 17 18 19 20 21 22 23];
+for subject = [1 2 3 4 6 7 8 9 10 11 14 15 16 17 18 19 20 21 22 23];
 clear mex;clearvars  -except subject*;close all;clc;
 
 %Parameters
@@ -98,8 +98,8 @@ end
 % Chequear si los targets estan bien asignados a los mismos estimulos
 % dentro del mismo trial.
 %%
-assert ( size(a,1) == 700,  'Hit number of stimulations do not match 20 x 35');
-assert ( size(b,1) == 3500, 'Nohit number of stimulations do not match 100 x 35');
+assert ( size(a,1) >= 700,  'Hit number of stimulations do not match 20 x 35');
+assert ( size(b,1) >= 3500, 'Nohit number of stimulations do not match 100 x 35');
 
 for trial=1:Trials
     h=[];

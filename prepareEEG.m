@@ -29,9 +29,10 @@ for subject=subjectRange
             
             % Mark this 12 repetition segment as artifact or not.
             %if (mod((flash-1),12)==0)
-            %    iteration = extract(dataX, (ceil(data.trial(trial)/downsize)+64/downsize*(flash-1)),64/downsize*12);
-            %    artifact=isartifact(iteration,70);  
-            artifact = false;
+            %   iteration = extract(dataX, (ceil(data.trial(trial)/downsize)+64/downsize*(flash-1)),64/downsize*12);
+            %   artifact=isartifact(iteration,70);
+            %else
+                artifact = false;
             %end         
             
             %EEG(subject,trial,flash).EEG = zeros((Fs/downsize)*windowsize,size(channelRange,2));

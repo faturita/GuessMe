@@ -36,8 +36,7 @@ channels={ 'Fz '  ,  'Cz ',    'Pz ' ,   'Oz '  ,  'P3 '  ,  'P4 '   , 'PO7'   ,
 channels={ 'Fz'  ,  'Cz',    'P3' ,   'Pz'  ,  'P4'  , 'PO7'   , 'PO8',  'Oz'};
 
 % Parameters ==========================
-subjectRange=[1 2 3 4 6 7 8 9 10 11 14 15 16 17 18 19 20 21 22 23];
-subjectRange=6:6;
+subjectRange=[1 2 3 4 6 7 8 9 10 11 13 14 15 16 17 18 19 20 21 22 23];
 epochRange = 1:120*7*5;
 channelRange=1:8;
 labelRange = [];
@@ -56,7 +55,7 @@ Fs=250;
 windowsize=1;
 expcode=2400;
 show=0;
-downsize=25;
+downsize=15;
 applyzscore=true;
 featuretype=1;
 distancetype='cosine';
@@ -65,7 +64,7 @@ classifier=6;
 %featuretype=2;
 %timescale=1;
 %applyzscore=false;
-%classifier=4;
+%classifier=5;
 % =====================================
 
 % EEG(subject,trial,flash)
@@ -78,9 +77,9 @@ EEG = prepareEEG(Fs,windowsize,downsize,120,subjectRange,1:8);
 trainingRange = 1:nbofclassespertrial*15;
 
 tic
-Fs=ceil(Fs/downsize);
+Fs=floor(Fs/downsize);
 
-sqKS = [37; 19; 37; 38; 33; 35; 35; 37;     33];
+sqKS = [37; 19; 37; 38; 33; 35; 35; 37;     zeros(20,1)+33];
 
 %%
 % Build routput pasting epochs toghether...
@@ -363,7 +362,7 @@ for subject=subjectRange
     [a,b] = max(SpAcc);
 end
 
-experiment=sprintf('Hellinger. Butter de 3 a 4, K = %d, upsampling a 16, zscore a 3,NBNN con artefactos, cosine float, unweighted without artifacts ',k);
+experiment=sprintf(' K = %d ',k);
 fid = fopen('experiment.log','a');
 fprintf(fid,'Experiment: %s \n', experiment);
 fprintf(fid,'st %f sv %f scale %f timescale %f qKS %d\n',siftscale(1),siftscale(2),imagescale,timescale,qKS);

@@ -28,6 +28,7 @@ TH = double(TM);
 % Classification based on LDA
 %b = stepwisefit(H,lbs');
 
+warning('off','all');
 
 mdl = stepwiseglm(H', lbs'-1,'constant','upper','linear','distr','binomial');
 
@@ -44,6 +45,12 @@ end
 size(TH)
 size(H)
 size(lbs)
+
+H=zscore(H');
+TH=zscore(TH');
+
+H=H';
+TH=TH';
 
 lbls = classify(TH',H',lbs','linear');
 
