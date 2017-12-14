@@ -30,7 +30,7 @@ TH = double(TM);
 
 warning('off','all');
 
-mdl = stepwiseglm(H', lbs'-1,'constant','upper','linear','distr','binomial');
+mdl = stepwiseglm(H', lbs'-1,'constant','upper','linear','distr','binomial','Criterion','Deviance','PEnter',0.25,'PRemove',1);
 
 if (mdl.NumEstimatedCoefficients>1)
    inmodel = [];

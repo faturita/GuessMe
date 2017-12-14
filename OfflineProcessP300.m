@@ -61,10 +61,10 @@ featuretype=1;
 distancetype='cosine';
 classifier=6;
 
-%featuretype=2;
-%timescale=1;
-%applyzscore=false;
-%classifier=5;
+% featuretype=2;
+% timescale=1;
+% applyzscore=false;
+% classifier=5;
 % =====================================
 
 % EEG(subject,trial,flash)
