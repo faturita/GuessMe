@@ -9,31 +9,21 @@ addpath('./ov2mat/');
 %run('C:/vlfeat/toolbox/vl_setup')
 rng(396544);
 
-subjectaverages= cell(0);
-subjectartifacts = 0;
-subjectsingletriality=119;
-
-%for subjectsingletriality=12*[10:-3:1]-1
-for subject = [1 2 3 4 6 7 8 9 10 11 14 15 16 17 18 19 20 21 22 23];
+%for subject = [1 2 3 4 6 7 8 9 10 11 14 15 16 17 18 19 20 21 22 23];
+for subject=22;   
 clear mex;clearvars  -except subject*;close all;clc;
 
 %Parameters
 Fs=250;
 Trials=35;
 
-
-
-% Clean all the directories where the images are located.
-cleanimagedirectory();
-
-
 %subject = 2;
 convert_ov2mat(sprintf('./signals/Subject%d/p300-train.ov',subject),sprintf('./signals/p300-train-%d.mat',subject));
 load(sprintf('./signals/p300-train-%d.mat',subject));
 
 % Clean output file
-if (exist(sprintf('p300-subject-%02d.mat',subject),'file'))
-    delete(sprintf('p300-subject-%02d.mat',subject));
+if (exist(sprintf('./signals/p300-subject-%02d.mat',subject),'file'))
+    delete(sprintf('./signals/p300-subject-%02d.mat',subject));
 end
 
 % NN.NNNNN
@@ -241,27 +231,15 @@ for i=1:size(targets,1)
     for j=1:ceil(Fs*duration)
         data.y(idx+j-1) = targets(i,2); 
         data.y_stim(idx+j-1) = stimulations(i,2);
-        
-        %fakeEEG(j,:);
-        
     end
     
     
     data.flash(end,3) = stimulations(i,2);
     data.flash(end,4) = targets(i,2);
     
-    
     if (targets(i,2)==2)
-        %data.X(maximalsampleidx+ceil(Fs*duration)-1:maximalsampleidx+ceil(Fs*duration)-1+ceil(Fs*0.33),:) = zeros(ceil(Fs*0.33)+1,size(data.X,2));
-        %data.X(maximalsampleidx-1:maximalsampleidx-1+ceil(Fs*1),:) = zeros(ceil(Fs*1)+1,size(data.X,2));
- 
-        %data.X(maximalsampleidx-1+ceil(Fs/2*1),:) = 1000*ones(1,size(data.X,2));
-        
+        data.X(idx+1-1-100:idx+1-1-100+ceil(Fs*1)+100,:) = zeros(ceil(Fs*1)+100+1,size(data.X,2));
     end    
-   
-    %if (targets(i,2)==2)
-    %    data.X(maximalsampleidx+1-1:maximalsampleidx+1-1+ceil(Fs*0.33),:) = zeros(ceil(Fs*0.33)+1,size(data.X,2));
-    %end    
     
 end
 
@@ -296,6 +274,8 @@ end
 save(sprintf('./signals/p300-subject-%02d.mat',subject));
 
 % LISTOOOOOO
+
+fprintf('File saved.  DONE!');
  
 end
 %%

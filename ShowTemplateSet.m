@@ -1,6 +1,6 @@
 %%
-subject=1;
-channel=7;
+subject=22;
+channel=6;
 SC=SBJ(subject).SC(channel);
 ML=SBJ(subject).DE(channel);
 F=SBJ(subject).F;

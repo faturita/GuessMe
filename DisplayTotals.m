@@ -41,9 +41,10 @@ for subject=subjectRange
     
     totals = [totals ;subject informedinpaper(subject) [ Cz CMean ChNum ChAcc  Stdv]];
     
-    fprintf(fid,'%d     & %6.2f & %6.2f', [ subject informedinpaper(subject) Cz]);
+    fprintf(fid,'%d     ', subject);
     fprintf(fid,'& %s', channels{ChNum});
-    fprintf(fid,'& %6.4f $\\pm$ %4.4f \\\\\n', [ChAcc Stdv]);
+    %fprintf(fid,'& %6.4f $\\pm$ %4.4f \\\\\n', [ChAcc Stdv]);
+    fprintf(fid,'& %3.0f $\\pm$ %3.0f \\\\\n', [informedinpaper(subject)*100 ChAcc*100]);
 end
 totals
 fclose(fid);

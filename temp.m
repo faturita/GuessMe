@@ -2,7 +2,10 @@ artifactcount = 0;
 amplification=1;
           
 flashespertrial=120;
-downsize=10;
+downsize=15;
+
+subject=22;
+subjectRange=22;
 
 for subject=subjectRange
     clear data.y_stim
@@ -10,17 +13,19 @@ for subject=subjectRange
     clear data.X
     clear dataX;
     clear data.trial
-    load('p300.mat');
+    load(sprintf('./signals/p300-subject-%02d.mat', subject));
 
-    %dataX = notchsignal(data.X, channelRange,Fs);
+    dataX = data.X;
+    dataX = notchsignal(data.X, channelRange,Fs);
+
     datatrial = data.trial;
 
     dataX = data.X;
     %dataX = decimateaveraging(dataX,channelRange,downsize);
- dataX = bandpasseeg(dataX, channelRange,Fs);
- dataX = decimatesignal(dataX,channelRange,downsize); 
+ dataX = bandpasseeg(dataX, channelRange,Fs,3);
+ dataX = decimatesignal(dataX,channelRange,downsize);
     %dataX = downsample(dataX,downsize);
-    fdsfds
+    
     %l=randperm(size(data.y,1));
     %data.y = data.y(l);
        
@@ -31,8 +36,15 @@ for subject=subjectRange
             start = data.flash((trial-1)*120+flash,1);
             duration = data.flash((trial-1)*120+flash,2);
             
+            if (ceil(Fs/downsize)*windowsize>size(dataX,1)-ceil(start/downsize))
+                dataX = [dataX; zeros(ceil(Fs/downsize)*windowsize-size(dataX,1)+ceil(start/downsize)+1,8)];
+            end            
+            
             % Mark this 12 repetition segment as artifact or not.
             if (mod((flash-1),12)==0)
+                if (ceil(Fs/downsize*windowsize)*12>size(dataX,1)-ceil(start/downsize))
+                    dataX = [dataX; zeros(ceil(Fs/downsize*windowsize)*12-size(dataX,1)+ceil(start/downsize)+1,8)];
+                end                 
                 iteration = extract(dataX, ...
                      (ceil(start/downsize)), ...
                      (Fs/downsize)*windowsize*12);
@@ -41,15 +53,21 @@ for subject=subjectRange
             
             %EEG(subject,trial,flash).EEG = zeros((Fs/downsize)*windowsize,size(channelRange,2));
             
-            output = baselineremover(dataX,ceil(start/downsize),(Fs/downsize)*windowsize,channelRange,downsize);
+
+            
+            output = baselineremover(dataX,...
+                ceil(start/downsize),...
+                floor((Fs/downsize)*windowsize),...
+                channelRange,...
+                downsize);
 
             output = extract(dataX, ...
                 (ceil(start/downsize)), ...
-                (Fs/downsize)*windowsize);
+                floor(Fs/downsize)*windowsize);
             
             
-            EEG(subject,trial,flash).label = data.y(start);
-            EEG(subject,trial,flash).stim = data.y_stim(start); 
+            EEG(subject,trial,flash).stim = data.flash((trial-1)*120+flash,3);
+            EEG(subject,trial,flash).label = data.flash((trial-1)*120+flash,4); 
             
             [trial, flash, EEG(subject,trial,flash).stim, EEG(subject,trial,flash).label]
             
@@ -72,16 +90,11 @@ for subject=subjectRange
     end
 end
 
-
-%%
-
 figure;
 plot(data.X);
 title('Experimento P300, 1433 s, 7 palabras de 5 letras, 120 repeticiones');
 ylabel('[microV]');
 xlabel('[ms]');
-
-
 
 %%
 figure
@@ -95,7 +108,6 @@ title('Experimento P300, 1433 s, 7 palabras de 5 letras, 120 repeticiones');
 ylabel('[microV]');
 xlabel('[ms]');
 hold off
-
     
 %%
 
@@ -141,7 +153,7 @@ ylabel('[microV]');
 xlabel('[ms]');
 legend(channels)
 hold off
-
+fdfsd
 %%
     % Ojo que reduce los canales... e FASTICA los invierte.
     %output = fastica(output');

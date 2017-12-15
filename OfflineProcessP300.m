@@ -37,6 +37,7 @@ channels={ 'Fz'  ,  'Cz',    'P3' ,   'Pz'  ,  'P4'  , 'PO7'   , 'PO8',  'Oz'};
 
 % Parameters ==========================
 subjectRange=[1 2 3 4 6 7 8 9 10 11 13 14 15 16 17 18 19 20 21 22 23];
+subjectRange=22;
 epochRange = 1:120*7*5;
 channelRange=1:8;
 labelRange = [];
@@ -56,7 +57,7 @@ windowsize=1;
 expcode=2400;
 show=0;
 downsize=15;
-applyzscore=true;
+applyzscore=false;
 featuretype=1;
 distancetype='cosine';
 classifier=6;
@@ -101,6 +102,20 @@ for subject=subjectRange
             end
             
             hit{subject}{trial}{EEG(subject,trial,flash).stim} = EEG(subject,trial,flash).label;
+            
+            if (hit{subject}{trial}{EEG(subject,trial,flash).stim}>1 && trial==2)
+                figure
+                hold on
+                for c=channelRange
+                    %plot(data.X(275222:277948,c)+c*100);
+                    plot(output(:,c)+c*100);
+                end
+                legend(channels);
+                title('Experimento P300, 1433 s, 7 palabras de 5 letras, 120 repeticiones');
+                ylabel('[microV]');
+                xlabel('[ms]');
+                hold off
+            end              
         end
     end
 end

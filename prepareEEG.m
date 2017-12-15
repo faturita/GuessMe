@@ -16,7 +16,7 @@ for subject=subjectRange
     datatrial = data.trial;
 
 
- dataX = bandpasseeg(dataX, channelRange,Fs);
+ dataX = bandpasseeg(dataX, channelRange,Fs,3);
  dataX = decimatesignal(dataX,channelRange,downsize); 
  %dataX = decimateaveraging(dataX,channelRange,downsize);
     %dataX = downsample(dataX,downsize);
