@@ -1,9 +1,9 @@
-% Signal Averaging x Selection classification of P300 008-2014 dataset.
+% Signal Averaging x Selection g.Tec Dataset.
 
 % run('/Users/rramele/work/vlfeat/toolbox/vl_setup')
 % run('D:/workspace/vlfeat/toolbox/vl_setup')
 % run('C:/vlfeat/toolbox/vl_setup')
-% P300 for ALS patients.
+% P300
 
 %clear all;
 %close all;
@@ -37,7 +37,12 @@ channels={ 'Fz'  ,  'Cz',    'P3' ,   'Pz'  ,  'P4'  , 'PO7'   , 'PO8',  'Oz'};
 
 % Parameters ==========================
 subjectRange=[1 2 3 4 6 7 8 9 10 11 13 14 15 16 17 18 19 20 21 22 23];
-subjectRange=22;
+subjectRange=[1 3 4 6 7 9 10 11 13 14 16 17 18 19 20 21 22 23];
+
+%2,15, 8 high impeadance empty trials.
+
+%subjectRange=[1 11 14   16 17 20 22 23];
+
 epochRange = 1:120*7*5;
 channelRange=1:8;
 labelRange = [];
@@ -57,7 +62,7 @@ windowsize=1;
 expcode=2400;
 show=0;
 downsize=15;
-applyzscore=false;
+applyzscore=true;
 featuretype=1;
 distancetype='cosine';
 classifier=6;
@@ -66,11 +71,12 @@ classifier=6;
 % timescale=1;
 % applyzscore=false;
 % classifier=5;
+artifactcheck=true;
 % =====================================
 
 % EEG(subject,trial,flash)
 EEG = prepareEEG(Fs,windowsize,downsize,120,subjectRange,1:8);
-
+KS=10:50;
 
 % CONTROL
 %EEG = randomizeEEG(EEG);
@@ -80,7 +86,23 @@ trainingRange = 1:nbofclassespertrial*15;
 tic
 Fs=floor(Fs/downsize);
 
-sqKS = [37; 19; 37; 38; 33; 35; 35; 37;     zeros(20,1)+33];
+sqKS = [37; 16; 13; 45; 47; 35; 31; 28;39; 33;   28;  ...
+    33; 33; 35; ...
+    33; 50; ...
+    37; ...
+    33; 33; 33; ...
+    33; 29; ...
+    39];
+
+ sqKS = [37; -1;...
+     16;    13;  -1;  45;    47; -1; 35; 31; 28;...
+     -1; 39;    35;...
+     -1; 50;...
+     37;...
+     43;    36;    33;...
+     28;...
+     29;...
+     39];
 
 %%
 % Build routput pasting epochs toghether...
@@ -88,11 +110,16 @@ for subject=subjectRange
     for trial=1:35
         for i=1:12 hit{subject}{trial}{i} = 0; end
         for i=1:12 routput{subject}{trial}{i} = []; end
+        for i=1:12 artifact{subject}{trial}{i} = 0; end
+        for i=1:12 rcounter{subject}{trial}{i} = 0; end
         for flash=1:120
             % Skip artifacts
             if (artifactcheck && EEG(subject,trial,flash).isartifact)
+                artifact{subject}{trial}{EEG(subject,trial,flash).stim}=artifact{subject}{trial}{EEG(subject,trial,flash).stim}+1;
                 continue;
             end
+            rcounter{subject}{trial}{EEG(subject,trial,flash).stim} = rcounter{subject}{trial}{EEG(subject,trial,flash).stim}+1;
+
             output = EEG(subject,trial,flash).EEG;
             routput{subject}{trial}{EEG(subject,trial,flash).stim} = [routput{subject}{trial}{EEG(subject,trial,flash).stim} ;output];
             
@@ -102,33 +129,17 @@ for subject=subjectRange
             end
             
             hit{subject}{trial}{EEG(subject,trial,flash).stim} = EEG(subject,trial,flash).label;
-            
-            if (hit{subject}{trial}{EEG(subject,trial,flash).stim}>1 && trial==2)
-                figure
-                hold on
-                for c=channelRange
-                    %plot(data.X(275222:277948,c)+c*100);
-                    plot(output(:,c)+c*100);
-                end
-                legend(channels);
-                title('Experimento P300, 1433 s, 7 palabras de 5 letras, 120 repeticiones');
-                ylabel('[microV]');
-                xlabel('[ms]');
-                hold off
-            end              
+                     
         end
     end
 end
 
+% Checkpoint
 for subject=subjectRange
     for trial=1:35
-        for i=1:12 rcounter{subject}{trial}{i} = 0; end
-        for flash=1:120
-            rcounter{subject}{trial}{EEG(subject,trial,flash).stim} = rcounter{subject}{trial}{EEG(subject,trial,flash).stim}+1;
-        end
         % Check if all the epochs contain 10 repetitions.
         for i=1:12
-            %assert( rcounter{subject}{trial}{i} == 10, 'Epochs averaging does not contain the same number of elements' );
+            assert( rcounter{subject}{trial}{i} >= 2, 'Some trials are empty due to artifacts (likely low high impeadance)' );
         end
     end
 end
@@ -217,6 +228,7 @@ if (featuretype == 1)
     %                qKS=ceil(0.20*(Fs)*timescale):floor(0.20*(Fs)*timescale+(Fs)*timescale/4-1);
     %             else
                     qKS=sqKS(subject);
+                    %qKS=KS(globaliterations);
                     %qKS=125;
     %             end
 
@@ -371,7 +383,7 @@ for subject=subjectRange
         spellingacc = counter/size(S,2);
         SpAcc(end+1) = spellingacc;
         globalspeller(subject,channel) = spellingacc;
-        %globalspeller(subject,channel,globalrepetitions) = spellingacc;
+        globalspellers(subject,channel,globaliterations) = spellingacc;
     
     end
     [a,b] = max(SpAcc);

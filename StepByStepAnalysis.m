@@ -4,8 +4,8 @@ amplification=1;
 flashespertrial=120;
 downsize=15;
 
-subject=22;
-subjectRange=22;
+subject=2;
+subjectRange=subject;
 
 for subject=subjectRange
     clear data.y_stim
@@ -90,11 +90,29 @@ for subject=subjectRange
     end
 end
 
+data.NX = data.X;
+
+for subject=subjectRange
+    artifact = false;
+    for trial=1:size(datatrial,2)
+        for flash=1:flashespertrial
+            
+            start = data.flash((trial-1)*120+flash,1);
+            duration = data.flash((trial-1)*120+flash,2);
+            
+            data.NX(start,1) = -1000;
+
+        end
+    end
+end
+
 figure;
-plot(data.X);
+plot(data.NX);
 title('Experimento P300, 1433 s, 7 palabras de 5 letras, 120 repeticiones');
 ylabel('[microV]');
 xlabel('[ms]');
+
+
 
 %%
 figure
@@ -108,7 +126,8 @@ title('Experimento P300, 1433 s, 7 palabras de 5 letras, 120 repeticiones');
 ylabel('[microV]');
 xlabel('[ms]');
 hold off
-    
+   
+   
 %%
 
 fprintf('Primer segmento a analizar artifactos\n');
@@ -153,7 +172,7 @@ ylabel('[microV]');
 xlabel('[ms]');
 legend(channels)
 hold off
-fdfsd
+
 %%
     % Ojo que reduce los canales... e FASTICA los invierte.
     %output = fastica(output');
@@ -176,7 +195,7 @@ for c=channelRange
 end
 xlim(axes1,[time1 time2]);
 %ylim(axes1,[-103.606833529613 119.258061149953]);
-title(sprintf('Captura multicanal a partir de %10.2f %10.2f s, de 10.9040 s de largo',time1,time1/Fs));
+title(sprintf('PCA multicanal a partir de %10.2f %10.2f s, de 10.9040 s de largo',time1,time1/Fs));
 ylabel('[microV]');
 xlabel('[ms]');
 legend(channels)
@@ -195,11 +214,11 @@ hold(axes1,'on');
 hold on
 % Create multiple lines using matrix input to plot
 for c=channelRange
-    plot(icas(:,c)*amplification+c*100,'Parent',axes1);
+    plot(icas(:,c)*10+c*100,'Parent',axes1);
 end
 xlim(axes1,[time1 time2]);
 %ylim(axes1,[-103.606833529613 119.258061149953]);
-title(sprintf('Captura multicanal a partir de %10.2f %10.2f s, de 10.9040 s de largo',time1,time1/Fs));
+title(sprintf('ICA multicanal a partir de %10.2f %10.2f s, de 10.9040 s de largo',time1,time1/Fs));
 ylabel('[microV]');
 xlabel('[ms]');
 legend(channels)
@@ -225,7 +244,7 @@ for c=channelRange
 end
 xlim(axes1,[time1 time2]);
 %ylim(axes1,[-103.606833529613 119.258061149953]);
-title('Captura multicanal a partir de 275222 1100s, de 10.9040 s');
+title('ICA FILTRO multicanal a partir de 275222 1100s, de 10.9040 s');
 ylabel('[microV]');
 xlabel('[ms]');
 legend(channels)

@@ -40,7 +40,7 @@ for subject=subjectRange
     Cz = globalaccij(subject,2);
     
     totals = [totals ;subject informedinpaper(subject) [ Cz CMean ChNum ChAcc  Stdv]];
-    
+
     fprintf(fid,'%d     ', subject);
     fprintf(fid,'& %s', channels{ChNum});
     %fprintf(fid,'& %6.4f $\\pm$ %4.4f \\\\\n', [ChAcc Stdv]);

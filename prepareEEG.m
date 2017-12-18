@@ -1,7 +1,10 @@
 % EEG(subject,trial,flash)
 function [EEG, labelRange, stimRange] = prepareEEG(Fs, windowsize, downsize, flashespertrial, subjectRange,channelRange)
 
-artifactcount = 0;            
+artifactcount = 0;   
+
+channels={ 'Fz'  ,  'Cz',    'P3' ,   'Pz'  ,  'P4'  , 'PO7'   , 'PO8',  'Oz'};
+
             
 for subject=subjectRange
     clear data.y_stim
@@ -14,7 +17,16 @@ for subject=subjectRange
     dataX = data.X;
  dataX = notchsignal(data.X, channelRange,Fs);
     datatrial = data.trial;
+time1=275222.343262227;
+time2= 279948.995187305;
+    %plotthiseeg(dataX,channels,channelRange,time1/1,time2/1,false);
+    
+    %dataX = filterbyica(dataX,[1 2]);
+    
+    %plotthiseeg(dataX,channels,channelRange,time1/1,time2/1,false);
 
+    
+    %dataX = filterbyica(dataX,[1 2]);
 
  dataX = bandpasseeg(dataX, channelRange,Fs,3);
  dataX = decimatesignal(dataX,channelRange,downsize); 
@@ -23,17 +35,19 @@ for subject=subjectRange
     
     %l=randperm(size(data.y,1));
     %data.y = data.y(l);
+     
+    
        
     for trial=1:size(datatrial,2)
         for flash=1:flashespertrial
             
             % Mark this 12 repetition segment as artifact or not.
-            %if (mod((flash-1),12)==0)
-            %   iteration = extract(dataX, (ceil(data.trial(trial)/downsize)+64/downsize*(flash-1)),64/downsize*12);
-            %   artifact=isartifact(iteration,70);
-            %else
-                artifact = false;
-            %end         
+%             if (mod((flash-1),12)==0)
+%                 iteration = extract(dataX, (ceil(data.trial(trial)/downsize)+64/downsize*(flash-1)),64/downsize*12);
+%                 artifact=isartifact(iteration,70);
+%             else
+%                 artifact = false;
+%             end         
             
             %EEG(subject,trial,flash).EEG = zeros((Fs/downsize)*windowsize,size(channelRange,2));
 
@@ -58,7 +72,7 @@ for subject=subjectRange
             
             output = extract(dataX, ...
                 (ceil(start/downsize)), ...
-                (Fs/downsize)*windowsize);
+                floor(Fs/downsize)*windowsize);
             
             
             %output=bf(output,1:5:size(output,2));
@@ -73,6 +87,7 @@ for subject=subjectRange
             [trial, flash, EEG(subject,trial,flash).stim, EEG(subject,trial,flash).label]
             
             EEG(subject,trial,flash).isartifact = false;
+            artifact = isartifact(output,70);
             if (artifact)
                 artifactcount = artifactcount + 1;
                 EEG(subject,trial,flash).isartifact = true;
