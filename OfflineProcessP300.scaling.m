@@ -230,10 +230,10 @@ if (featuretype == 1)
             rsignal{i}=routput{subject}{trial}{i};
             for channel=channelRange
                 %minimagesize=1;
-                [eegimg, DOTS, zerolevel] = eegimage(channel,rsignal{i},imagescale,1, false,minimagesize);
-                %[eegimg, DOTS, zerolevel, height] = eegimagecenteredimage(channel,rsignal{i},imagescale,1, false,minimagesize);
+                %[eegimg, DOTS, zerolevel] = eegimage(channel,rsignal{i},imagescale,1, false,minimagesize);
+                [eegimg, DOTS, zerolevel, height] = eegimagecenteredimage(channel,rsignal{i},imagescale,1, false,minimagesize);
                 %siftscale(1) = 11.7851;
-                %siftscale(2) = (height-1)/(sqrt(2)*15);
+                siftscale(2) = (height-1)/(sqrt(2)*15);
                 saveeegimage(subject,epoch,label,channel,eegimg);
                 zerolevel = size(eegimg,1)/2;
 

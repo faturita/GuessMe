@@ -238,7 +238,7 @@ for i=1:size(targets,1)
     data.flash(end,4) = targets(i,2);
     
     if (targets(i,2)==2)
-        data.X(idx+1-1-100:idx+1-1-100+ceil(Fs*1)+100,:) = zeros(ceil(Fs*1)+100+1,size(data.X,2));
+        %data.X(idx+1-1-100:idx+1-1-100+ceil(Fs*1)+100,:) = zeros(ceil(Fs*1)+100+1,size(data.X,2));
     end    
     
 end
