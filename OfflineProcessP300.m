@@ -13,7 +13,7 @@ rng(396544);
 globalnumberofepochspertrial=10;
 globalaverages= cell(2,1);
 globalartifacts = 0;
-globalreps=1;
+globalreps=10;
 globalnumberofepochs=(2+10)*globalreps-1;
 
 clear mex;clearvars  -except global*;close all;clc;
@@ -69,14 +69,14 @@ featuretype=1;
 distancetype='cosine';
 classifier=6;
 
-featuretype=2;
-timescale=1;
-applyzscore=false;
-classifier=1;
-amplitude=1
-windowsize=1;
-downsize=12;
-artifactcheck=false;
+% featuretype=2;
+% timescale=1;
+% applyzscore=false;
+% classifier=1;
+% amplitude=1
+% windowsize=1;
+% downsize=12;
+% artifactcheck=true;
 % =====================================
 
 % EEG(subject,trial,flash)
@@ -252,7 +252,7 @@ if (featuretype == 1)
 
                 [frames, desc] = PlaceDescriptorsByImage(eegimg, DOTS,siftscale, siftdescriptordensity,qKS,zerolevel,false,distancetype);            
                 F(channel,label,epoch).stim = i;
-                F(channel,label,epoch).hit = hit{subject}{trial}{i};
+                F(channel,label,epoch).hit = hit{subject}{trial}{classes}{i};
 
 
                 F(channel,label,epoch).descriptors = desc;
