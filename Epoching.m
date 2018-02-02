@@ -23,7 +23,10 @@ subjectRange=[1 11 14   16 17 20 22 23];
 Trials=35;
 Fs=250;
 
-EEG = prepareEEG(Fs,windowsize,downsize,120,subjectRange,1:8);
+downsize=1;
+
+%EEG = prepareEEG(Fs,windowsize,downsize,120,subjectRange,1:8);
+EEG = prepareEEG(Fs,1,1,120,subjectRange,1:8);
 
 Fs=Fs/downsize;
 for i=1:12 rcounter{i} = 0; end

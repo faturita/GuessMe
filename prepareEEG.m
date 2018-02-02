@@ -5,6 +5,7 @@ artifactcount = 0;
 
 channels={ 'Fz'  ,  'Cz',    'P3' ,   'Pz'  ,  'P4'  , 'PO7'   , 'PO8',  'Oz'};
 
+bandpass = true;
             
 for subject=subjectRange
     clear data.y_stim
@@ -28,8 +29,11 @@ time2= 279948.995187305;
     
     %dataX = filterbyica(dataX,[1 2]);
 
- dataX = bandpasseeg(dataX, channelRange,Fs,3);
- dataX = decimatesignal(dataX,channelRange,downsize); 
+    if (bandpass)
+        dataX = bandpasseeg(dataX, channelRange,Fs,3);
+    end
+    
+    dataX = decimatesignal(dataX,channelRange,downsize); 
  %dataX = decimateaveraging(dataX,channelRange,downsize);
     %dataX = downsample(dataX,downsize);
     

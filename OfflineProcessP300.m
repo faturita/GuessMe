@@ -13,7 +13,7 @@ rng(396544);
 globalnumberofepochspertrial=10;
 globalaverages= cell(2,1);
 globalartifacts = 0;
-globalreps=10;
+globalreps=1;
 globalnumberofepochs=(2+10)*globalreps-1;
 
 clear mex;clearvars  -except global*;close all;clc;
@@ -69,12 +69,14 @@ featuretype=1;
 distancetype='cosine';
 classifier=6;
 
-% featuretype=2;
-% timescale=1;
-%applyzscore=false;
-% classifier=5;
-%amplitude=1;
-artifactcheck=true;
+featuretype=2;
+timescale=1;
+applyzscore=false;
+classifier=1;
+amplitude=1
+windowsize=1;
+downsize=12;
+artifactcheck=false;
 % =====================================
 
 % EEG(subject,trial,flash)
@@ -116,31 +118,32 @@ sqKS = [37; 16; 13; 45; 47; 35; 31; 28;39; 33;   28;  ...
 % Build routput pasting epochs toghether...
 for subject=subjectRange
     for trial=1:35
-        for i=1:12 hit{subject}{trial}{i} = 0; end
-        for i=1:12 routput{subject}{trial}{i} = []; end
-        for i=1:12 artifact{subject}{trial}{i} = 0; end
-        for i=1:12 rcounter{subject}{trial}{i} = 0; end
+        for classes=1:120/(globalnumberofepochs+1);for i=1:12 hit{subject}{trial}{classes}{i} = 0; end; end
+        for classes=1:120/(globalnumberofepochs+1);for i=1:12 routput{subject}{trial}{classes}{i} = []; end; end
+        for classes=1:120/(globalnumberofepochs+1);for i=1:12 artifact{subject}{trial}{classes}{i} = 0; end; end
+        for classes=1:120/(globalnumberofepochs+1);for i=1:12 rcounter{subject}{trial}{classes}{i} = 0; end; end
         processedflashes=0;
         for flash=1:120
+            classes = floor((flash-1)/(globalnumberofepochs+1))+1;
             if ((breakonepochlimit>0) && (processedflashes > breakonepochlimit))
                 break;
             end
             % Skip artifacts
             if (artifactcheck && EEG(subject,trial,flash).isartifact)
-                artifact{subject}{trial}{EEG(subject,trial,flash).stim}=artifact{subject}{trial}{EEG(subject,trial,flash).stim}+1;
+                artifact{subject}{trial}{classes}{EEG(subject,trial,flash).stim}=artifact{subject}{trial}{classes}{EEG(subject,trial,flash).stim}+1;
                 continue;
             end
-            rcounter{subject}{trial}{EEG(subject,trial,flash).stim} = rcounter{subject}{trial}{EEG(subject,trial,flash).stim}+1;
+            rcounter{subject}{trial}{classes}{EEG(subject,trial,flash).stim} = rcounter{subject}{trial}{classes}{EEG(subject,trial,flash).stim}+1;
 
             output = EEG(subject,trial,flash).EEG;
-            routput{subject}{trial}{EEG(subject,trial,flash).stim} = [routput{subject}{trial}{EEG(subject,trial,flash).stim} ;output];
+            routput{subject}{trial}{classes}{EEG(subject,trial,flash).stim} = [routput{subject}{trial}{classes}{EEG(subject,trial,flash).stim} ;output];
             
-            if (hit{subject}{trial}{EEG(subject,trial,flash).stim}>0 && ...
-                    hit{subject}{trial}{EEG(subject,trial,flash).stim} ~= EEG(subject,trial,flash).label)
+            if (hit{subject}{trial}{classes}{EEG(subject,trial,flash).stim}>0 && ...
+                    hit{subject}{trial}{classes}{EEG(subject,trial,flash).stim} ~= EEG(subject,trial,flash).label)
                 error('Inconsistent hit assignation.');
             end
             processedflashes = processedflashes+1;
-            hit{subject}{trial}{EEG(subject,trial,flash).stim} = EEG(subject,trial,flash).label;
+            hit{subject}{trial}{classes}{EEG(subject,trial,flash).stim} = EEG(subject,trial,flash).label;
                      
         end
     end
@@ -150,9 +153,7 @@ end
 for subject=subjectRange
     for trial=1:35
         % Check if all the epochs contain 10 repetitions.
-        for i=1:12
-            assert( rcounter{subject}{trial}{i} >= 1, 'Some trials are empty due to artifacts (likely low high impeadance)' );
-        end
+        for classes=1:120/(globalnumberofepochs+1);for i=1:12 assert( rcounter{subject}{trial}{classes}{i} >= 1, 'Some trials are empty due to artifacts (likely low high impeadance)' );end;end
     end
 end
 
@@ -160,53 +161,56 @@ for subject=subjectRange
     h=[];
     Word=[];
     for trial=1:35
-        hh = [];
-        for i=1:12
-            rput{i} = routput{subject}{trial}{i};
-            channelRange = (1:size(rput{i},2));
-            channelsize = size(channelRange,2);
+        for classes=1:120/(globalnumberofepochs+1)
+            hh = [];
+            for i=1:12
+                rput{i} = routput{subject}{trial}{classes}{i};
+                channelRange = (1:size(rput{i},2));
+                channelsize = size(channelRange,2);
 
-            assert( artifactcheck || size(rput{i},1)/(Fs*windowsize) == rcounter{subject}{trial}{i}, 'Something wrong with PtP average. Sizes do not match.');
+                assert( artifactcheck || size(rput{i},1)/(Fs*windowsize) == rcounter{subject}{trial}{classes}{i}, 'Something wrong with PtP average. Sizes do not match.');
 
-            rput{i}=reshape(rput{i},[(Fs*windowsize) size(rput{i},1)/(Fs*windowsize) channelsize]); 
+                rput{i}=reshape(rput{i},[(Fs*windowsize) size(rput{i},1)/(Fs*windowsize) channelsize]); 
 
-            for channel=channelRange
-                rmean{i}(:,channel) = mean(rput{i}(:,:,channel),2);
+                for channel=channelRange
+                    rmean{i}(:,channel) = mean(rput{i}(:,:,channel),2);
+                end
+
+                if (hit{subject}{trial}{classes}{i} == 2)
+                    h = [h i];
+                    hh = [hh i];
+                end    
+                routput{subject}{trial}{classes}{i} = rmean{i};
             end
-
-            if (hit{subject}{trial}{i} == 2)
-                h = [h i];
-                hh = [hh i];
-            end    
-            routput{subject}{trial}{i} = rmean{i};
+            Word = [Word SpellMeLetter(hh(1),hh(2))];
         end
-        Word = [Word SpellMeLetter(hh(1),hh(2))];
     end
 end
 
 for subject=subjectRange
     for trial=1:35
-        
-        for i=1:12
+        for classes=1:120/(globalnumberofepochs+1)
+            for i=1:12
 
-            rmean{i} = routput{subject}{trial}{i};
-            
-            if (timescale ~= 1)
-                for c=channelRange
-                    rsignal{i}(:,c) = resample(rmean{i}(:,c),size(rmean{i},1)*timescale,size(rmean{i},1));
-                    %rsignal{i}(:,c) = resample(rmean{i}(:,c),1:size(rmean{i},1),timescale);
+                rmean{i} = routput{subject}{trial}{classes}{i};
+
+                if (timescale ~= 1)
+                    for c=channelRange
+                        rsignal{i}(:,c) = resample(rmean{i}(:,c),size(rmean{i},1)*timescale,size(rmean{i},1));
+                        %rsignal{i}(:,c) = resample(rmean{i}(:,c),1:size(rmean{i},1),timescale);
+                    end
+                else
+                    rsignal{i} = rmean{i};
                 end
-            else
-                rsignal{i} = rmean{i};
-            end
 
-            if (applyzscore)
-                rsignal{i} = zscore(rsignal{i})*amplitude;
-            else
-                rsignal{i} = rsignal{i}*amplitude;
+                if (applyzscore)
+                    rsignal{i} = zscore(rsignal{i})*amplitude;
+                else
+                    rsignal{i} = rsignal{i}*amplitude;
+                end
+
+                routput{subject}{trial}{classes}{i} = rsignal{i};
             end
-            
-            routput{subject}{trial}{i} = rsignal{i};
         end
     end
 end
@@ -220,14 +224,15 @@ if (featuretype == 1)
         labelRange=[];
         epochRange=[];
         stimRange=[];
-        for trial=1:35        
+        for trial=1:35     
+            for classes=1:120/(globalnumberofepochs+1)
             for i=1:12
             epoch=epoch+1;    
-            label = hit{subject}{trial}{i};
+            label = hit{subject}{trial}{classes}{i};
             labelRange(epoch) = label;
             stimRange(epoch) = i;
             DS = [];
-            rsignal{i}=routput{subject}{trial}{i};
+            rsignal{i}=routput{subject}{trial}{classes}{i};
             for channel=channelRange
                 %minimagesize=1;
                 [eegimg, DOTS, zerolevel] = eegimage(channel,rsignal{i},imagescale,1, false,minimagesize);
@@ -254,6 +259,7 @@ if (featuretype == 1)
                 F(channel,label,epoch).frames = frames; 
             end
             end
+            end
         end
         
         epochRange=1:epoch;
@@ -276,14 +282,15 @@ else
         labelRange=[];
         epochRange=[];
         stimRange=[];
-        for trial=1:35        
+        for trial=1:35   
+            for classes=1:120/(globalnumberofepochs+1)
             for i=1:12
                 epoch=epoch+1;    
-                label = hit{subject}{trial}{i};
+                label = hit{subject}{trial}{classes}{i};
                 labelRange(epoch) = label;
                 stimRange(epoch) = i;
                 DS = [];
-                rsignal{i}=routput{subject}{trial}{i};
+                rsignal{i}=routput{subject}{trial}{classes}{i};
 
                 feature = [];
 
@@ -292,11 +299,12 @@ else
                 end  
 
                 for channel=channelRange
-                    F(channel,label,epoch).hit = hit{subject}{trial}{i};
+                    F(channel,label,epoch).hit = hit{subject}{trial}{classes}{i};
                     F(channel,label,epoch).descriptors = feature;
                     F(channel,label,epoch).frames = [];   
                     F(channel,label,epoch).stim = i;
                 end    
+            end
             end
         end
         epochRange=1:epoch;
