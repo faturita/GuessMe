@@ -1,3 +1,5 @@
 signals/
 *.asv
 *.mat
+.DS_Store
+*~

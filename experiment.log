@@ -1640,3 +1640,333 @@ st 3.000000 sv 3.000000 scale 4.000000 timescale 1.000000 qKS 29
 20     & P3&  90 $\pm$  30 \\
 22     & Pz&  90 $\pm$  50 \\
 23     & PO8&  90 $\pm$  45 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Oz&  84 $\pm$  35 \\
+11     & PO7&  90 $\pm$  15 \\
+14     & P4&  90 $\pm$  35 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  55 \\
+20     & Pz&  90 $\pm$  50 \\
+22     & PO7&  90 $\pm$  70 \\
+23     & P4&  90 $\pm$  45 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 16.000000 timescale 16.000000 qKS 39
+1     & Oz&  84 $\pm$  10 \\
+11     & Fz&  90 $\pm$   5 \\
+14     & P4&  90 $\pm$  10 \\
+16     & Cz&  90 $\pm$  10 \\
+17     & Cz&  90 $\pm$  10 \\
+20     & Cz&  90 $\pm$  15 \\
+22     & Oz&  90 $\pm$  10 \\
+23     & P3&  90 $\pm$  10 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Oz&  84 $\pm$  35 \\
+11     & PO7&  90 $\pm$  15 \\
+14     & P4&  90 $\pm$  35 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  55 \\
+20     & Pz&  90 $\pm$  50 \\
+22     & PO7&  90 $\pm$  70 \\
+23     & P4&  90 $\pm$  45 \\
+Experiment:  K = 7  
+1     & Fz&  84 $\pm$   5 \\
+11     & P4&  90 $\pm$  10 \\
+14     & Cz&  90 $\pm$  10 \\
+16     & Cz&  90 $\pm$   5 \\
+17     & PO7&  90 $\pm$  15 \\
+20     & PO7&  90 $\pm$   5 \\
+22     & Cz&  90 $\pm$   5 \\
+23     & Cz&  90 $\pm$   5 \\
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 35
+st 36.000000 sv 37.000000 scale 38.000000 timescale 39.000000 qKS 40
+st 41.000000 sv 42.000000 scale 43.000000 timescale Experiment:  K = 7  
+1     & Cz&  84 $\pm$  10 \\
+11     & P3&  90 $\pm$   5 \\
+14     & Fz&  90 $\pm$  10 \\
+16     & P4&  90 $\pm$  20 \\
+17     & Pz&  90 $\pm$  10 \\
+20     & Cz&  90 $\pm$  10 \\
+22     & PO8&  90 $\pm$  20 \\
+23     & Cz&  90 $\pm$  15 \\
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 35
+st 36.000000 sv 37.000000 scale 38.000000 timescale 39.000000 qKS 40
+st 41.000000 sv 42.000000 scale 43.000000 timescale Experiment:  K = 7  
+1     & Cz&  84 $\pm$  10 \\
+11     & P3&  90 $\pm$   5 \\
+14     & Fz&  90 $\pm$  10 \\
+16     & P4&  90 $\pm$  15 \\
+17     & Cz&  90 $\pm$  15 \\
+20     & Cz&  90 $\pm$  10 \\
+22     & P4&  90 $\pm$  20 \\
+23     & Cz&  90 $\pm$  15 \\
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 35
+st 36.000000 sv 37.000000 scale 38.000000 timescale 39.000000 qKS 40
+st 41.000000 sv 42.000000 scale 43.000000 timescale Experiment:  K = 7  
+1     & Cz&  84 $\pm$  10 \\
+11     & P3&  90 $\pm$   5 \\
+14     & Fz&  90 $\pm$  10 \\
+16     & P4&  90 $\pm$  15 \\
+17     & Cz&  90 $\pm$  15 \\
+20     & Cz&  90 $\pm$  10 \\
+22     & P4&  90 $\pm$  20 \\
+23     & Cz&  90 $\pm$  15 \\
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 35
+st 36.000000 sv 37.000000 scale 38.000000 timescale 39.000000 qKS 40
+st 41.000000 sv 42.000000 scale 43.000000 timescale Experiment:  K = 1  
+1     & Cz&  84 $\pm$  10 \\
+11     & Fz&  90 $\pm$   5 \\
+14     & P3&  90 $\pm$  10 \\
+16     & Fz&  90 $\pm$  10 \\
+17     & PO8&  90 $\pm$  15 \\
+20     & Cz&  90 $\pm$   5 \\
+22     & P3&  90 $\pm$  10 \\
+23     & Cz&  90 $\pm$  15 \\
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 35
+st 36.000000 sv 37.000000 scale 38.000000 timescale 39.000000 qKS 40
+st 41.000000 sv 42.000000 scale 43.000000 timescale Experiment:  K = 1  
+1     & Cz&  84 $\pm$  10 \\
+11     & Fz&  90 $\pm$   5 \\
+14     & P3&  90 $\pm$  10 \\
+16     & Fz&  90 $\pm$  10 \\
+17     & PO8&  90 $\pm$  15 \\
+20     & Cz&  90 $\pm$   5 \\
+22     & P3&  90 $\pm$  10 \\
+23     & Cz&  90 $\pm$  15 \\
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 35
+st 36.000000 sv 37.000000 scale 38.000000 timescale 39.000000 qKS 40
+st 41.000000 sv 42.000000 scale 43.000000 timescale Experiment:  K = 1  
+1     & Cz&  84 $\pm$  15 \\
+11     & PO8&  90 $\pm$  20 \\
+14     & P3&  90 $\pm$  15 \\
+16     & P4&  90 $\pm$  20 \\
+17     & Cz&  90 $\pm$  20 \\
+20     & Oz&  90 $\pm$  20 \\
+22     & Cz&  90 $\pm$  20 \\
+23     & Fz&  90 $\pm$  15 \\
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 35
+st 36.000000 sv 37.000000 scale 38.000000 timescale 39.000000 qKS 40
+st 41.000000 sv 42.000000 scale 43.000000 timescale Experiment:  K = 1  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Fz&  84 $\pm$ 100 \\
+11     & Fz&  90 $\pm$ 100 \\
+14     & Fz&  90 $\pm$ 100 \\
+16     & Fz&  90 $\pm$ 100 \\
+17     & Fz&  90 $\pm$ 100 \\
+20     & Fz&  90 $\pm$ 100 \\
+22     & Fz&  90 $\pm$ 100 \\
+23     & Fz&  90 $\pm$ 100 \\
+Experiment:  K = 1  
+1     & Cz&  84 $\pm$  15 \\
+11     & PO8&  90 $\pm$  20 \\
+14     & P3&  90 $\pm$  15 \\
+16     & P4&  90 $\pm$  20 \\
+17     & Cz&  90 $\pm$  20 \\
+20     & Oz&  90 $\pm$  20 \\
+22     & Cz&  90 $\pm$  20 \\
+23     & Fz&  90 $\pm$  15 \\
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 35
+st 36.000000 sv 37.000000 scale 38.000000 timescale 39.000000 qKS 40
+st 41.000000 sv 42.000000 scale 43.000000 timescale Experiment:  K = 1  
+st 1.000000 sv 1.000000 scale 4.000000 timescale 4.000000 qKS 34
+st 35.000000 sv 36.000000 scale 37.000000 timescale 38.000000 qKS 39
+st 40.000000 sv 41.000000 scale 42.000000 timescale 43.000000 qKS 44
+1     & Cz&  84 $\pm$  10 \\
+11     & P4&  90 $\pm$  15 \\
+14     & Cz&  90 $\pm$  15 \\
+16     & P3&  90 $\pm$   5 \\
+17     & Cz&  90 $\pm$  10 \\
+20     & Fz&  90 $\pm$  10 \\
+22     & PO7&  90 $\pm$  10 \\
+23     & Oz&  90 $\pm$  10 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & PO7&  84 $\pm$  60 \\
+11     & P3&  90 $\pm$  60 \\
+14     & P4&  90 $\pm$  65 \\
+16     & PO7&  90 $\pm$  65 \\
+17     & P4&  90 $\pm$  85 \\
+20     & Pz&  90 $\pm$  70 \\
+22     & P4&  90 $\pm$  90 \\
+23     & P4&  90 $\pm$  70 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Fz&  84 $\pm$  30 \\
+11     & PO7&  90 $\pm$  15 \\
+14     & P3&  90 $\pm$  25 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  55 \\
+20     & Pz&  90 $\pm$  50 \\
+22     & PO7&  90 $\pm$  70 \\
+23     & P4&  90 $\pm$  45 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Oz&  84 $\pm$  35 \\
+11     & PO7&  90 $\pm$  15 \\
+14     & P4&  90 $\pm$  35 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  55 \\
+20     & Pz&  90 $\pm$  50 \\
+22     & PO7&  90 $\pm$  70 \\
+23     & P4&  90 $\pm$  45 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Oz&  84 $\pm$  35 \\
+11     & PO7&  90 $\pm$  15 \\
+14     & P4&  90 $\pm$  35 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  55 \\
+20     & Pz&  90 $\pm$  50 \\
+22     & PO7&  90 $\pm$  70 \\
+23     & P4&  90 $\pm$  45 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Oz&  84 $\pm$  35 \\
+11     & PO7&  90 $\pm$  15 \\
+14     & P4&  90 $\pm$  35 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  55 \\
+20     & Pz&  90 $\pm$  50 \\
+22     & PO7&  90 $\pm$  70 \\
+23     & P4&  90 $\pm$  45 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Oz&  84 $\pm$  35 \\
+11     & PO7&  90 $\pm$  15 \\
+14     & P4&  90 $\pm$  35 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  55 \\
+20     & Pz&  90 $\pm$  50 \\
+22     & PO7&  90 $\pm$  70 \\
+23     & P4&  90 $\pm$  45 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Oz&  84 $\pm$  40 \\
+11     & PO7&  90 $\pm$  30 \\
+14     & P4&  90 $\pm$  40 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  60 \\
+20     & Pz&  90 $\pm$  50 \\
+22     & PO7&  90 $\pm$  70 \\
+23     & P4&  90 $\pm$  50 \\
+Experiment: Hellinger. Butter de 3 a 4, K = 7, upsampling a 16, zscore a 3,NBNN con artefactos, cosine float, unweighted without artifacts  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & PO7&  84 $\pm$  15 \\
+11     & PO7&  90 $\pm$  15 \\
+14     & Cz&  90 $\pm$  15 \\
+16     & P3&  90 $\pm$  15 \\
+17     & P3&  90 $\pm$   5 \\
+20     & Pz&  90 $\pm$  10 \\
+22     & PO7&  90 $\pm$  15 \\
+23     & P4&  90 $\pm$  15 \\
+Experiment: Hellinger. Butter de 3 a 4, K = 7, upsampling a 16, zscore a 3,NBNN con artefactos, cosine float, unweighted without artifacts  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & PO7&  84 $\pm$  15 \\
+11     & PO7&  90 $\pm$  15 \\
+14     & Cz&  90 $\pm$  15 \\
+16     & P3&  90 $\pm$  15 \\
+17     & P3&  90 $\pm$   5 \\
+20     & Pz&  90 $\pm$  10 \\
+22     & PO7&  90 $\pm$  15 \\
+23     & P4&  90 $\pm$  15 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Oz&  84 $\pm$  40 \\
+11     & PO7&  90 $\pm$  30 \\
+14     & P4&  90 $\pm$  40 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  60 \\
+20     & Pz&  90 $\pm$  50 \\
+22     & PO7&  90 $\pm$  70 \\
+23     & P4&  90 $\pm$  50 \\
+Experiment: Hellinger. Butter de 3 a 4, K = 7, upsampling a 16, zscore a 3,NBNN con artefactos, cosine float, unweighted without artifacts  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Fz&  84 $\pm$  10 \\
+11     & PO7&  90 $\pm$  15 \\
+14     & Fz&  90 $\pm$  10 \\
+16     & P3&  90 $\pm$  15 \\
+17     & P4&  90 $\pm$  10 \\
+20     & Pz&  90 $\pm$  10 \\
+22     & PO7&  90 $\pm$  15 \\
+23     & P4&  90 $\pm$  20 \\
+Experiment: Hellinger. Butter de 3 a 4, K = 7, upsampling a 16, zscore a 3,NBNN con artefactos, cosine float, unweighted without artifacts  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Fz&  84 $\pm$  10 \\
+11     & PO7&  90 $\pm$  15 \\
+14     & Fz&  90 $\pm$  10 \\
+16     & P3&  90 $\pm$  15 \\
+17     & P4&  90 $\pm$  10 \\
+20     & Pz&  90 $\pm$  10 \\
+22     & PO7&  90 $\pm$  15 \\
+23     & P4&  90 $\pm$  20 \\
+Experiment: Hellinger. Butter de 3 a 4, K = 7, upsampling a 16, zscore a 3,NBNN con artefactos, cosine float, unweighted without artifacts  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Fz&  84 $\pm$  10 \\
+11     & PO7&  90 $\pm$  15 \\
+14     & Fz&  90 $\pm$  10 \\
+16     & P3&  90 $\pm$  15 \\
+17     & P4&  90 $\pm$  10 \\
+20     & Pz&  90 $\pm$  10 \\
+22     & PO7&  90 $\pm$  15 \\
+23     & P4&  90 $\pm$  20 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Oz&  84 $\pm$  40 \\
+11     & PO7&  90 $\pm$  30 \\
+14     & P4&  90 $\pm$  40 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  60 \\
+20     & Pz&  90 $\pm$  50 \\
+22     & PO7&  90 $\pm$  70 \\
+23     & P4&  90 $\pm$  50 \\
+Experiment: Hellinger. Butter de 3 a 4, K = 7, upsampling a 16, zscore a 3,NBNN con artefactos, cosine float, unweighted without artifacts  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Oz&  84 $\pm$  40 \\
+11     & PO7&  90 $\pm$  30 \\
+14     & P4&  90 $\pm$  40 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  60 \\
+20     & Pz&  90 $\pm$  50 \\
+22     & PO7&  90 $\pm$  70 \\
+23     & P4&  90 $\pm$  50 \\
+Experiment: Hellinger. Butter de 3 a 4, K = 7, upsampling a 16, zscore a 3,NBNN con artefactos, cosine float, unweighted without artifacts  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Oz&  84 $\pm$  40 \\
+11     & PO7&  90 $\pm$  30 \\
+14     & P4&  90 $\pm$  40 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  60 \\
+20     & Pz&  90 $\pm$  50 \\
+22     & PO7&  90 $\pm$  70 \\
+23     & P4&  90 $\pm$  50 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & PO8&  84 $\pm$  40 \\
+11     & Pz&  90 $\pm$  10 \\
+14     & P4&  90 $\pm$  35 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  55 \\
+20     & Pz&  90 $\pm$  45 \\
+22     & PO7&  90 $\pm$  65 \\
+23     & P4&  90 $\pm$  40 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & PO8&  84 $\pm$  40 \\
+11     & Pz&  90 $\pm$  10 \\
+14     & P4&  90 $\pm$  35 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  55 \\
+20     & Pz&  90 $\pm$  45 \\
+22     & PO7&  90 $\pm$  65 \\
+23     & P4&  90 $\pm$  40 \\
+Experiment:  K = 7  
+st 3.000000 sv 3.000000 scale 4.000000 timescale 4.000000 qKS 39
+1     & Oz&  84 $\pm$  40 \\
+11     & PO7&  90 $\pm$  30 \\
+14     & P4&  90 $\pm$  40 \\
+16     & P4&  90 $\pm$  45 \\
+17     & P4&  90 $\pm$  60 \\
+20     & Pz&  90 $\pm$  50 \\
+22     & PO7&  90 $\pm$  70 \\
+23     & P4&  90 $\pm$  50 \\

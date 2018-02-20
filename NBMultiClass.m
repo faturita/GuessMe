@@ -1,4 +1,4 @@
-function [ACC, ERR, AUC, SC] = NBMultiClass(F,DE,channel,testRange,labelRange,graphics)
+function [ACC, ERR, AUC, SC] = NBMultiClass(F,DE,channel,testRange,labelRange,distancetype,kparam)
 
 fprintf('Channel %d\n', channel);
 fprintf('Building Test Matrix M for Channel %d:', channel);
@@ -30,7 +30,7 @@ K = size(DE.C(1).M,2);
 
 
 % Obtengo las K distancias de los 30 a los 150.
-[Z,I] = pdist2(DE.C(1).M',DE.C(2).M','cosine','Smallest',K );
+[Z,I] = pdist2(DE.C(1).M',DE.C(2).M',distancetype,'Smallest',K );
 
 k = K;
 
@@ -47,50 +47,25 @@ D = sum(Z(1:k,1:size(DE.C(2).M,2)),1);
 
 
 for f=1:size(testRange,2)/12
-    % Segundo metodo.  Se calcula la matriz de distancia entre los
-    % descriptores de la bolsa de hit y los 12 de este trial.
 
-    %Z = dist((TM(:,mind:maxd+6)'),DE.C(2).M);
-    %Wgts = ones(1,size(DE.C(2).M,1));
-    %weuc = @(XI,XJ,W)(sqrt(bsxfun(@minus,XI,XJ).^2 * W'));
-    %Z = pdist2((TM(:,mind:maxd+6)'),DE.C(2).M',@(Xi,Xj) weuc(Xi,Xj,Wgts));
-    
-    %Z=Z';
-
-    % Para el row, sumo en la primera direccion (along 30) para cada
-    % uno.   Tanto para los 6 primeros (fila) como los otros 6
-    % (columnas).
-
-    %sumsrow = sum(Z(1:size(DE.C(2).M,2),1:6),1);
-    %sumscol = sum(Z(1:size(DE.C(2).M,2),7:12),1);
 
     K = size(DE.C(2).M,2);
 
-    [Z,I] = pdist2(DE.C(2).M',(TM(:,mind:maxd+6)'),'cosine','Smallest',K );
+    [Z,I] = pdist2(DE.C(2).M',(TM(:,mind:mind+12*9-1)'),distancetype,'Smallest',K );
     
-    k = 7;
+    k = kparam;
 
-    %sumsrow = sum(Z(1:k,1:6),1);
-    %sumscol = sum(Z(1:k,7:12),1);
-    
-    %Wi = Epanechnikov(D(I(1:k,1:6))) ./ repmat(sum( Epanechnikov(D(I(1:k,1:6))) ),k,1) ;
-    
     assert( k > 1, 'error');
-    
-    Wi = 1.-D(I(1:k,1:6))  ./   repmat  (   sum(D(I(1:k,1:6))),k,1  ) ;
-    Wi = Wi / (k-1);
-    
     
     %sumsrow = dot(Z(1:k,1:6),Wi(I(1:k,1:6)));
     
-    sumsrow = dot(Z(1:k,1:6),Wi(1:k,1:6));
+    sumsrow = dot(Z(1:k,1:54),ones(k,54));
+    sumsrow = reshape(sumsrow,[6 9]);
+    sumsrow = sum(sumsrow,2);
     
-    %sumscol = dot(Z(1:k,7:12),Wi(I(1:k,7:12)));
-    
-    Wi = 1.-D(I(1:k,7:12))  ./   repmat  (   sum(D(I(1:k,7:12))),k,1  ) ;
-    Wi = Wi / (k-1);
-    
-    sumscol = dot(Z(1:k,7:12),Wi(1:k,1:6));
+    sumscol = dot(Z(1:k,55:108),ones(k,54));
+    sumscol = reshape(sumscol,[6 9]);
+    sumscol = sum(sumscol,2);
 
     % Me quedo con aquel que la suma contra todos, dio menor.
     [c, row] = min(sumsrow);
@@ -121,8 +96,8 @@ for f=1:size(testRange,2)/12
         score(end+1) = 1-sumscol(i)/sum(sumscol);
     end
 
-    mind=mind+12;
-    maxd=maxd+12;
+    mind=mind+12*9;
+    maxd=maxd+12*9;
 end
 score=score';
 

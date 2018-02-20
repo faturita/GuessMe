@@ -7,6 +7,8 @@ downsize=15;
 subject=2;
 subjectRange=subject;
 
+windowsize=1;
+
 for subject=subjectRange
     clear data.y_stim
     clear data.y
@@ -19,13 +21,19 @@ for subject=subjectRange
     dataX = notchsignal(data.X, channelRange,Fs);
 
     datatrial = data.trial;
+    
+    time1=data.flash(4,1)/Fs;
+    time2=data.flash(4,1)/Fs+windowsize*5;
+    plotthiseeg(dataX,channels,channelRange,time1,time2,Fs,false);
 
     dataX = data.X;
     %dataX = decimateaveraging(dataX,channelRange,downsize);
- dataX = bandpasseeg(dataX, channelRange,Fs,3);
- dataX = decimatesignal(dataX,channelRange,downsize);
+    dataX = bandpasseeg(dataX, channelRange,Fs,3);
+    dataX = decimatesignal(dataX,channelRange,downsize);
     %dataX = downsample(dataX,downsize);
     
+    plotthiseeg(dataX,channels,channelRange,time1,time2,Fs/downsize,false);
+    fdsfs
     %l=randperm(size(data.y,1));
     %data.y = data.y(l);
        

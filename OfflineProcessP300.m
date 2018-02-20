@@ -56,7 +56,7 @@ minimagesize=floor(sqrt(2)*15*siftscale(2)+1);
 amplitude=3;
 adaptative=false;
 k=7;
-artifactcheck=false;
+artifactcheck=true;
 
 siftdescriptordensity=1;
 Fs=250;
@@ -196,8 +196,8 @@ for subject=subjectRange
 
                 if (timescale ~= 1)
                     for c=channelRange
-                        rsignal{i}(:,c) = resample(rmean{i}(:,c),size(rmean{i},1)*timescale,size(rmean{i},1));
-                        %rsignal{i}(:,c) = resample(rmean{i}(:,c),1:size(rmean{i},1),timescale);
+                        %rsignal{i}(:,c) = resample(rmean{i}(:,c),size(rmean{i},1)*timescale,size(rmean{i},1));
+                        rsignal{i}(:,c) = resample(rmean{i}(:,c),1:size(rmean{i},1),timescale);
                     end
                 else
                     rsignal{i} = rmean{i};
@@ -246,8 +246,10 @@ if (featuretype == 1)
     %                qKS=ceil(0.20*(Fs)*timescale):floor(0.20*(Fs)*timescale+(Fs)*timescale/4-1);
     %             else
                     qKS=sqKS(subject);
+                    %qKS=-5+sqKS(subject):+5+sqKS(subject);
                     %qKS=KS(globaliterations);
                     %qKS=125;
+                    %qKS=qKS';
     %             end
 
                 [frames, desc] = PlaceDescriptorsByImage(eegimg, DOTS,siftscale, siftdescriptordensity,qKS,zerolevel,false,distancetype);            
@@ -369,8 +371,12 @@ for subject=subjectRange
             for channel=channelRange
                 DE(channel) = NBNNFeatureExtractor(F,channel,trainingRange,labelRange,[1 2],false); 
    
-                %[ACC, ERR, AUC, SC(channel)] = NBMultiClass(F,DE(channel),channel,testRange,labelRange,false);
-                [ACC, ERR, AUC, SC(channel)] = NBNNClassifier4(F,DE(channel),channel,testRange,labelRange,false,distancetype,k);                                                        
+                
+                
+                [ACC, ERR, AUC, SC(channel)] = NBKNNP300Classifier(F,DE(channel),channel,testRange,labelRange,distancetype,k);
+ 
+                %[ACC, ERR, AUC, SC(channel)] = NBMultiClass(F,DE(channel),channel,testRange,labelRange,distancetype);
+                %[ACC, ERR, AUC, SC(channel)] = NBNNClassifier4(F,DE(channel),channel,testRange,labelRange,false,distancetype,k);                                                        
                 
                 globalaccij1(subject,channel)=1-ERR/size(testRange,2);
                 globalaccij2(subject,channel)=AUC;
