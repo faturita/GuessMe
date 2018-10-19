@@ -32,9 +32,29 @@ io.write(string.format("At time %f on input 1 got stimulation id:%s date:%s dura
 end
 
 
--- this function is called once by the box
+
 function process(box)
-        io.write("process has been called\n")
+      io.write("process has been called\n")
+      count = 0
+
+        -- enters infinite loop
+        -- cpu will be released with a call to sleep
+        -- at the end of the loop
+        while true do
+                box:log("Info", string.format("Stimulation"))
+
+                -- gets current simulated time
+                t = box:get_current_time()
+                io.write("process has been called\n")
+                -- releases cpu
+                box:sleep()
+        end
+end
+
+
+-- this function is called once by the box
+function procress(box)
+      io.write("process has been called\n")
       count = 0
 
         -- enters infinite loop
@@ -45,12 +65,12 @@ function process(box)
                 -- gets current simulated time
                 t = box:get_current_time()
 
-                -- loops on all inputs of the box
+               -- loops on all inputs of the box
                -- loops on every received stimulation for a given input
                for stimulation = 1, box:get_stimulation_count(1) do
 
-                        -- logs the received stimulation
-                        --io.write(string.format("At time %f on input 1 got stimulation id:%s date:%s duration:%s\n", t, get_stimulation(1, 1)))
+                  -- logs the received stimulation
+                  --io.write(string.format("At time %f on input 1 got stimulation id:%s date:%s duration:%s\n", t, get_stimulation(1, 1)))
 
                   --check witch stimulation it is
                   emit = 0
@@ -73,7 +93,7 @@ function process(box)
                      --io.write(string.format("Stimulation is a OVTK_StimulationId_TrialStart\n"))
                   end
                   if (id==32774) then
-                     --io.write(string.format("Stimulation is a OVTK_StimulationId_TrialStop\n"))
+                     io.write(string.format("Stimulation is a OVTK_StimulationId_TrialStop\n"))
                   end
                   if (id==32774) then
                      --io.write(string.format("Stimulation is a OVTK_StimulationId_TrialStop\n"))
@@ -103,19 +123,19 @@ function process(box)
                      --io.write(string.format("next Letter, idx = %d\n",count))
                   end
 
-                        -- discards it
-                        box:remove_stimulation(1, 1)
-
-                        -- add triggers : new OVTK_StimulationId_Label_XX stimulation
-                  if (emit==1) then
-                     if (count < #CommandInput) then
-                        io.write(string.format("case r = %s, c= %s\n",CommandInput[count+1][1][1],CommandInput[count+1][2][2]))
-                        box:send_stimulation(1, CommandContextRow[CommandInput[count+1][1][1]], t, duration)
-                        box:send_stimulation(1, CommandContextCol[CommandInput[count+1][2][2]], t, duration)
-                     else
-                        io.write("out of CommandInput\n")
-                     end
-                  end
+                  -- discards it
+                  -- box:remove_stimulation(1, 1)
+                  --
+                  -- -- add triggers : new OVTK_StimulationId_Label_XX stimulation
+                  -- if (emit==1) then
+                  --    if (count < #CommandInput) then
+                  --       io.write(string.format("case r = %s, c= %s\n",CommandInput[count+1][1][1],CommandInput[count+1][2][2]))
+                  --       box:send_stimulation(1, CommandContextRow[CommandInput[count+1][1][1]], t, duration)
+                  --       box:send_stimulation(1, CommandContextCol[CommandInput[count+1][2][2]], t, duration)
+                  --    else
+                  --       io.write("out of CommandInput\n")
+                  --    end
+                  -- end
 
                   --resend the base stimulation
                   --box:send_stimulation(1, id, t, duration)

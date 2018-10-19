@@ -18,7 +18,7 @@ nbofclassespertrial=12;
 k=7;
 adaptative=false;
 subjectRange=[1 2 3 4 6 7 8 9 10 11 14 15 16 17 18 19 20 21 22 23];
-subjectRange=[1 11 14   16 17 20 22 23];
+subjectRange=[1 11 14   16 17 20 22 21 23];
 
 Trials=35;
 Fs=250;

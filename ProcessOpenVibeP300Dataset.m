@@ -9,8 +9,8 @@ addpath('./ov2mat/');
 %run('C:/vlfeat/toolbox/vl_setup')
 rng(396544);
 
-%for subject = [1 2 3 4 6 7 8 9 10 11 14 15 16 17 18 19 20 21 22 23];
-for subject=22;   
+for subject = [1 2 3 4 6 7 8 9 10 11 14 15 16 17 18 19 20 21 22 23];
+%for subject=16;   
 clear mex;clearvars  -except subject*;close all;clc;
 
 %Parameters
@@ -184,43 +184,115 @@ data.y = zeros(size(samples,1),1);
 data.y_stim = zeros(size(samples,1),1);
 data.trial=zeros(5,1);
 
-
 data.flash = [];
 durs=[];
+% for i=1:size(targets,1)
+%     
+%     if (i==3856)
+%         disp('ddd')
+%     end
+%     % Obtengo la localizacion donde esta el marcador de fin del estimulo
+%     % (e) y del principio (f)
+%     startset = find(stims(f,1)<=targets(i,1));
+%     startset = sort(startset);
+%     
+%     endset = find(stims(e,1)>=targets(i,1));
+%     endset = sort(endset);
+%     endd = endset(1); % Location on e.
+%     
+%     if (size(startset,1)==0)
+%         % En algunos casos la primera estimulacion cae despues del primer
+%         % target.
+%         start = endd;
+%     else
+%         start = startset(end);
+%     end
+%     
+%     duration = stims(e(endd),1)-stims(f(endd),1);
+%     
+%     
+%     if (duration == 0)
+%         duration = 1/Fs;
+%     end
+%     
+%     assert( duration > 0, 'Flash duration cannot be zero.');
+%     
+%     
+%     durs(end+1) = ceil(Fs*duration);
+%     % Marco donde inicia el flash y la duracion en sample points.
+%     
+%     assert( ceil(Fs*duration) > 0, 'Flash duration cannot be zero.');
+%     
+%     
+%     idxset=find(sampleTime>=stims(f(start),1));
+%     idxset = sort(idxset);
+%     idx=idxset(1);
+%     
+%     data.flash(end+1,1) = idx 
+%     data.flash(end,2) = ceil(Fs*duration);
+%     
+%     %fakeEEG=fakeeegoutput(4,targets(i,2),channelRange,25,100,4);
+%     
+%     % Marco todos los estimulos y targets donde el flash estuvo presente.
+%     %for j=1:ceil(Fs*duration)
+%     %    data.y(idx+j-1) = targets(i,2); 
+%     %    data.y_stim(idx+j-1) = stimulations(i,2);
+%     %end
+%     
+%     data.y(idx) = targets(i,2);
+%     data.y_stim(idx) = stimulations(i,2);
+%     
+%     
+%     data.flash(end,3) = stimulations(i,2);
+%     data.flash(end,4) = targets(i,2);
+%     
+%     if (targets(i,2)==2)
+%         %data.X(idx+1-1-100:idx+1-1-100+ceil(Fs*1)+100,:) = zeros(ceil(Fs*1)+100+1,size(data.X,2));
+%     end    
+%     
+% end
+
+if (size(find(diff(f)==0),2)~=0) warning('Coincidental Event-Starting found.');end
+if (size(find(diff(e)==0),2)~=0) warning('Coincidental Event-Starting found.');end
+
+
+%%
 for i=1:size(targets,1)
+    
+    if (i==48)
+        disp('ddd')
+    end
     % Obtengo la localizacion donde esta el marcador de fin del estimulo
     % (e) y del principio (f)
-    startset = find(stims(f,1)<=targets(i,1));
-    startset = sort(startset);
+    duration = stims(e(i),1)-stims(f(i),1);
     
-    endset = find(stims(e,1)>=targets(i,1));
-    endset = sort(endset);
-    endd = endset(1); % Location on e.
-    
-    if (size(startset,1)==0)
-        % En algunos casos la primera estimulacion cae despues del primer
-        % target.
-        start = endd;
-    else
-        start = startset(end);
-    end
-    
-    duration = stims(e(endd),1)-stims(f(endd),1);
-    
-    
+    lag = 0;
     if (duration == 0)
         duration = 1/Fs;
+        lag = -2;
     end
     
     assert( duration > 0, 'Flash duration cannot be zero.');
     
-    
     durs(end+1) = ceil(Fs*duration);
     % Marco donde inicia el flash y la duracion en sample points.
     
-    idxset=find(sampleTime>=stims(f(start),1));
+    assert( ceil(Fs*duration) > 0, 'Flash duration cannot be zero.');
+    
+    
+    idxset=find(sampleTime>=stims(f(i),1));
     idxset = sort(idxset);
     idx=idxset(1);
+    
+    if (data.y(idx+lag)==0)
+        idx = idx + lag;
+    end
+    
+    % Si asi y todo no tengo lugar, lo muevo para adelante 2.
+    if (data.y(idx)~=0)
+        idx = idx+(2);
+    end
+    
     
     data.flash(end+1,1) = idx 
     data.flash(end,2) = ceil(Fs*duration);
@@ -229,9 +301,12 @@ for i=1:size(targets,1)
     
     % Marco todos los estimulos y targets donde el flash estuvo presente.
     for j=1:ceil(Fs*duration)
-        data.y(idx+j-1) = targets(i,2); 
-        data.y_stim(idx+j-1) = stimulations(i,2);
+       data.y(idx+j-1) = targets(i,2); 
+       data.y_stim(idx+j-1) = stimulations(i,2);
     end
+    
+    data.y(idx) = targets(i,2);
+    data.y_stim(idx) = stimulations(i,2);
     
     
     data.flash(end,3) = stimulations(i,2);
@@ -242,7 +317,6 @@ for i=1:size(targets,1)
     end    
     
 end
-
 
 % Marco los inicios de los trials.
 for i=1:size(z)
@@ -262,15 +336,26 @@ for i=1:Trials*12*10
     if (subject ~= 8 && i ~= 2526) && ...
             (subject ~= 11 && i ~= 2470) && ...
             (subject ~= 13 && i ~= 1974) && ...
-            (subject ~= 20 && i ~= 1524)
+            (subject ~= 20 && i ~= 1524) && ...
+            (subject ~= 6 && i ~= 49)
      assert ( ss(5) == 0, 'Not zero');
     end
     
     
 end
+%% 
+% Chequear que efectivamente los eventos marcados en targets y stimulations
+% estan todos asignados a diferentes sample indexes (aun en los casos en
+% que openvibe me informó que los eventos fueron coincidentes, donde yo le
+% agrego un lag adicional).  A efectos del analisis de los datos
+[C, IM, IC] = unique(data.flash(:,1));
+diffs=setdiff(1:size(data.flash(:,1),1),IM);
+
+assert ( size(diffs,2)==0, 'Some coincidential stimulation events were not fixed.');
+assert( size(unique(data.flash(:,1)),2) == size(data.flash(:,1),2), 'Some coincidential stimulation events were not fixed.');
+
 %%
 
-%data.X = data.X * 10;
 save(sprintf('./signals/p300-subject-%02d.mat',subject));
 
 % LISTOOOOOO
@@ -282,4 +367,11 @@ end
 
 %run('ProcessP300.m');
 %run('GeneralClassifyP300.m');
+
+
+
+%%
+%%
+
+
 
