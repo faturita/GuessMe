@@ -62,7 +62,7 @@
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc46b3d00, 0x3e0454e1)</Identifier>
-					<Value>(0x00000000, 0x0057c0ad)</Value>
+					<Value>(0x00000000, 0x006759b0)</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc73e83ec, 0xf855c5bc)</Identifier>
@@ -131,7 +131,7 @@
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc46b3d00, 0x3e0454e1)</Identifier>
-					<Value>(0x00000000, 0x004e0da2)</Value>
+					<Value>(0x00000000, 0x006876da)</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc73e83ec, 0xf855c5bc)</Identifier>
@@ -210,7 +210,7 @@
 					<TypeIdentifier>(0x007deef9, 0x2f3e95c6)</TypeIdentifier>
 					<Name>Number of trials</Name>
 					<DefaultValue>5</DefaultValue>
-					<Value>20</Value>
+					<Value>35</Value>
 					<Modifiability>false</Modifiability>
 				</Setting>
 				<Setting>
@@ -264,7 +264,7 @@
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc46b3d00, 0x3e0454e1)</Identifier>
-					<Value>(0x00000000, 0x0159817c)</Value>
+					<Value>(0x00000000, 0x01189ffb)</Value>
 				</Attribute>
 			</Attributes>
 		</Box>
@@ -364,14 +364,14 @@
 					<TypeIdentifier>(0x7f45a2a9, 0x7db12219)</TypeIdentifier>
 					<Name>Target background color</Name>
 					<DefaultValue>10,40,10</DefaultValue>
-					<Value>20,20,70</Value>
+					<Value>0,0,0</Value>
 					<Modifiability>false</Modifiability>
 				</Setting>
 				<Setting>
 					<TypeIdentifier>(0x7f45a2a9, 0x7db12219)</TypeIdentifier>
 					<Name>Target foreground color</Name>
 					<DefaultValue>60,100,60</DefaultValue>
-					<Value>10,10,30</Value>
+					<Value>25,25,25</Value>
 					<Modifiability>false</Modifiability>
 				</Setting>
 				<Setting>
@@ -422,7 +422,7 @@
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc46b3d00, 0x3e0454e1)</Identifier>
-					<Value>(0x00000000, 0x04b827fb)</Value>
+					<Value>(0x00000000, 0x05886df5)</Value>
 				</Attribute>
 			</Attributes>
 		</Box>
@@ -449,7 +449,7 @@
 					<TypeIdentifier>(0x330306dd, 0x74a95f98)</TypeIdentifier>
 					<Name>Filename</Name>
 					<DefaultValue></DefaultValue>
-					<Value>${Player_ScenarioDirectory}/signals/p300-test-[$core{date}-$core{time}].ov</Value>
+					<Value>${Player_ScenarioDirectory}/signals/p300-train-[$core{date}-$core{time}].ov</Value>
 					<Modifiability>false</Modifiability>
 				</Setting>
 				<Setting>
@@ -463,11 +463,11 @@
 			<Attributes>
 				<Attribute>
 					<Identifier>(0x1fa7a38f, 0x54edbe0b)</Identifier>
-					<Value>128</Value>
+					<Value>192.000000</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0x207c9054, 0x3c841b63)</Identifier>
-					<Value>448</Value>
+					<Value>624.000000</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0x4e7b798a, 0x183beafb)</Identifier>
@@ -479,7 +479,7 @@
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc46b3d00, 0x3e0454e1)</Identifier>
-					<Value>(0x00000000, 0x002d8c29)</Value>
+					<Value>(0x00000000, 0x002a12fa)</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xfba64161, 0x65304e21)</Identifier>
@@ -528,7 +528,7 @@
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc46b3d00, 0x3e0454e1)</Identifier>
-					<Value>(0x00000000, 0x0013122b)</Value>
+					<Value>(0x00000000, 0x0016df43)</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc73e83ec, 0xf855c5bc)</Identifier>
@@ -589,11 +589,11 @@
 			<Attributes>
 				<Attribute>
 					<Identifier>(0x1fa7a38f, 0x54edbe0b)</Identifier>
-					<Value>0</Value>
+					<Value>16.000000</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0x207c9054, 0x3c841b63)</Identifier>
-					<Value>688</Value>
+					<Value>752.000000</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0x4e7b798a, 0x183beafb)</Identifier>
@@ -601,7 +601,7 @@
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc46b3d00, 0x3e0454e1)</Identifier>
-					<Value>(0x00000000, 0x0079c418)</Value>
+					<Value>(0x00000000, 0x006c43f7)</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc73e83ec, 0xf855c5bc)</Identifier>
@@ -703,11 +703,11 @@
 			<Attributes>
 				<Attribute>
 					<Identifier>(0x1fa7a38f, 0x54edbe0b)</Identifier>
-					<Value>176</Value>
+					<Value>240.000000</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0x207c9054, 0x3c841b63)</Identifier>
-					<Value>688</Value>
+					<Value>768.000000</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0x4e7b798a, 0x183beafb)</Identifier>
@@ -719,7 +719,7 @@
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc46b3d00, 0x3e0454e1)</Identifier>
-					<Value>(0x00000000, 0x0029cfe1)</Value>
+					<Value>(0x00000000, 0x002efd47)</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc73e83ec, 0xf855c5bc)</Identifier>
@@ -756,7 +756,7 @@
 					<TypeIdentifier>(0xb0d0db45, 0x49cbc34a)</TypeIdentifier>
 					<Name>Lua Script</Name>
 					<DefaultValue></DefaultValue>
-					<Value>${Player_ScenarioDirectory}/p300-speller-target-test.lua</Value>
+					<Value>${Player_ScenarioDirectory}/p300-passive-speller-target.lua</Value>
 					<Modifiability>false</Modifiability>
 				</Setting>
 				<Setting>
@@ -811,7 +811,7 @@
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc46b3d00, 0x3e0454e1)</Identifier>
-					<Value>(0x00000000, 0x2efe7193)</Value>
+					<Value>(0x00000000, 0x3129baed)</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0xc80ce8af, 0xf699f813)</Identifier>
@@ -889,17 +889,6 @@
 			</Target>
 		</Link>
 		<Link>
-			<Identifier>(0x00003aa4, 0x00002b37)</Identifier>
-			<Source>
-				<BoxIdentifier>(0x00006d0d, 0x000031d8)</BoxIdentifier>
-				<BoxOutputIndex>0</BoxOutputIndex>
-			</Source>
-			<Target>
-				<BoxIdentifier>(0x00002c69, 0x00000b43)</BoxIdentifier>
-				<BoxInputIndex>1</BoxInputIndex>
-			</Target>
-		</Link>
-		<Link>
 			<Identifier>(0x00003e04, 0x00003879)</Identifier>
 			<Source>
 				<BoxIdentifier>(0x0000599b, 0x000026ba)</BoxIdentifier>
@@ -944,6 +933,17 @@
 			</Target>
 		</Link>
 		<Link>
+			<Identifier>(0x00006d04, 0x00005796)</Identifier>
+			<Source>
+				<BoxIdentifier>(0x00006d0d, 0x000031d8)</BoxIdentifier>
+				<BoxOutputIndex>0</BoxOutputIndex>
+			</Source>
+			<Target>
+				<BoxIdentifier>(0x00002c69, 0x00000b43)</BoxIdentifier>
+				<BoxInputIndex>1</BoxInputIndex>
+			</Target>
+		</Link>
+		<Link>
 			<Identifier>(0x000075dd, 0x000055fb)</Identifier>
 			<Source>
 				<BoxIdentifier>(0x0000599b, 0x000026ba)</BoxIdentifier>
@@ -973,11 +973,11 @@
 			<Attributes>
 				<Attribute>
 					<Identifier>(0x473d9a43, 0x97fc0a97)</Identifier>
-					<Value>112.000000</Value>
+					<Value>464</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0x7234b86b, 0x2b8651a5)</Identifier>
-					<Value>16.000000</Value>
+					<Value>32</Value>
 				</Attribute>
 			</Attributes>
 		</Comment>
@@ -985,45 +985,16 @@
 			<Identifier>(0x0000363f, 0x00001c2b)</Identifier>
 			<Text>The P300 Speller Visualisation
 sends the markers (stimulations) directly to 
-Acquisition Server using TCP Tagging.</Text>
+Acquisition Server using TCP Tagging.  If this box do not receive target stimulations, 
+the subject will be unable to see which letter he may chose in the copy-spelling task.</Text>
 			<Attributes>
 				<Attribute>
 					<Identifier>(0x473d9a43, 0x97fc0a97)</Identifier>
-					<Value>1056.000000</Value>
+					<Value>1040</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0x7234b86b, 0x2b8651a5)</Identifier>
-					<Value>-112.000000</Value>
-				</Attribute>
-			</Attributes>
-		</Comment>
-		<Comment>
-			<Identifier>(0x00004785, 0x00007f9c)</Identifier>
-			<Text>You can browse each box' documentation by selecting the box and pressing &lt;b&gt;F1&lt;/b&gt;</Text>
-			<Attributes>
-				<Attribute>
-					<Identifier>(0x473d9a43, 0x97fc0a97)</Identifier>
-					<Value>496.000000</Value>
-				</Attribute>
-				<Attribute>
-					<Identifier>(0x7234b86b, 0x2b8651a5)</Identifier>
-					<Value>-384.000000</Value>
-				</Attribute>
-			</Attributes>
-		</Comment>
-		<Comment>
-			<Identifier>(0x00005d42, 0x00005589)</Identifier>
-			<Text>The use of these P300 examples are described in
-
-http://openvibe.inria.fr/openvibe-p300-speller/</Text>
-			<Attributes>
-				<Attribute>
-					<Identifier>(0x473d9a43, 0x97fc0a97)</Identifier>
-					<Value>1024.000000</Value>
-				</Attribute>
-				<Attribute>
-					<Identifier>(0x7234b86b, 0x2b8651a5)</Identifier>
-					<Value>-320.000000</Value>
+					<Value>-80</Value>
 				</Attribute>
 			</Attributes>
 		</Comment>
@@ -1035,27 +1006,25 @@ from (token ${Player_ScenarioDirectory})</Text>
 			<Attributes>
 				<Attribute>
 					<Identifier>(0x473d9a43, 0x97fc0a97)</Identifier>
-					<Value>992.000000</Value>
+					<Value>1040</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0x7234b86b, 0x2b8651a5)</Identifier>
-					<Value>96.000000</Value>
+					<Value>64</Value>
 				</Attribute>
 			</Attributes>
 		</Comment>
 		<Comment>
 			<Identifier>(0x19b8795c, 0x039f26f7)</Identifier>
-			<Text>&lt;u&gt;&lt;b&gt;&lt;big&gt;Overview&lt;/big&gt;&lt;/b&gt;&lt;/u&gt;
+			<Text>&lt;u&gt;&lt;b&gt;&lt;big&gt;Passive Speller&lt;/big&gt;&lt;/b&gt;&lt;/u&gt;
 
-This scenario can be used as a first
-step to collect some training data. The
-data will later be used to train a
-classifier for online use.
+This scenario capture the EEG brainwaves of a subject
+which uses the P300-Based BCI Speller but did not engage
+in attending any specific letter.
 
 The flast sequence will start after 20 sec.
 
-You will then be presented a blue letter that
-you have to focus on, followed by a 12 times
+The speller produces 12 times
 flashing sequence of the whole grid. This will
 be repeated 10 times.
 
@@ -1065,20 +1034,20 @@ folder where the scenario xml is located
 			<Attributes>
 				<Attribute>
 					<Identifier>(0x473d9a43, 0x97fc0a97)</Identifier>
-					<Value>144.000000</Value>
+					<Value>400</Value>
 				</Attribute>
 				<Attribute>
 					<Identifier>(0x7234b86b, 0x2b8651a5)</Identifier>
-					<Value>-176.000000</Value>
+					<Value>-208</Value>
 				</Attribute>
 			</Attributes>
 		</Comment>
 	</Comments>
 	<Metadata>
 		<Entry>
-			<Identifier>(0x0000637e, 0x000009db)</Identifier>
+			<Identifier>(0x00001c1b, 0x00006d79)</Identifier>
 			<Type>(0x3bcce5d2, 0x43f2d968)</Type>
-			<Data>[{"boxIdentifier":"(0x00002c69, 0x00000b43)","childCount":0,"identifier":"(0x00004a0b, 0x00007b83)","parentIdentifier":"(0xffffffff, 0xffffffff)","type":3},{"boxIdentifier":"(0x000069b9, 0x00005532)","childCount":0,"identifier":"(0x000075c3, 0x00002c80)","parentIdentifier":"(0xffffffff, 0xffffffff)","type":3}]</Data>
+			<Data>[{"boxIdentifier":"(0x000069b9, 0x00005532)","childCount":0,"identifier":"(0x00006b9a, 0x0000414a)","parentIdentifier":"(0xffffffff, 0xffffffff)","type":3},{"boxIdentifier":"(0x00002c69, 0x00000b43)","childCount":0,"identifier":"(0x00007174, 0x00004d3e)","parentIdentifier":"(0xffffffff, 0xffffffff)","type":3}]</Data>
 		</Entry>
 	</Metadata>
 	<Attributes>

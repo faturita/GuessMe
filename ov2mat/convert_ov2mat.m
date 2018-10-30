@@ -3,8 +3,13 @@
 
 function convert_ov2mat(inputOvFilename, outputMatFilename)
 
-    openvibeConvertFile = 'C:\openvibe\openvibe-convert.cmd';
-	openvibeConvert = '"C:\openvibe\openvibe-convert.cmd"';
+    dire = 'openvibe';
+    dire2 = 'openvibe-2.1.0';
+    
+    openvibeConvertFile = sprintf('C:\\%s\\openvibe-convert.cmd',dire2);
+	openvibeConvert = sprintf('"C:\\%s\\openvibe-convert.cmd"',dire2);
+    
+    
     
     if (~exist(openvibeConvertFile,'file'))
         openvibeConvert = '"D:\openvibe\openvibe-convert.cmd"';

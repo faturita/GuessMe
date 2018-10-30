@@ -42,6 +42,7 @@ function initialize(box)
 	delay = box:get_setting(5)
 	--target = 'token' .. 'pizza' .. 'junky' .. 'qubit' .. 'queue' .. 'flyby' .. 'squad'
 	target = 'token' .. 'mirar' .. 'jujuy' .. 'manso' .. 'cinco' .. 'juego' .. 'queso'
+	target = ''
 	--target = 'token'
 	-- target = 'aaaaa' .. '33333'
 	if target == "" then
